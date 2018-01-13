@@ -17,7 +17,7 @@ create table LedRole
    RoleId               int not null auto_increment comment '权限角色Id',
    roletype             varchar(32) comment '权限角色类型',
    remark               varchar(256) comment '备注',
-   isUsed               bool comment '状态',
+   isUsed               boolean comment '状态',
    createTime           datetime comment '创建时间',
    updatetime           datetime comment '更新时间',
    primary key (RoleId)
@@ -33,9 +33,9 @@ create table LedUser
    RoleId               int,
    uid                  int not null auto_increment comment '用户id',
    username             varchar(64) comment '用户名',
-   name                 varchar(64) comment '名字',
+   nickname             varchar(64) comment '名字',
    pwd                  varchar(32) comment '密码',
-   userStatus           bool comment '用户状态',
+   userStatus           boolean comment '用户状态',
    createTime           datetime comment '创建时间',
    updateTime           datetime comment '更新时间',
    email                varchar(255) comment '电子邮箱',
@@ -55,7 +55,7 @@ create table LedStdEntity
    EntityId             int not null auto_increment,
    ArchId               int,
    SN                   varchar(20) comment '标准编号',
-   Level                int comment '标准层级',
+   StdLevel             int comment '标准层级',
    ChName               varchar(40) comment '中文名称',
    EnName               varchar(40) comment '英文名称',
    ReleaseDate          date comment '发布日期',
@@ -90,10 +90,10 @@ create table LedStdArch
    ArchCode             varchar(20) comment '标准的代号和编号',
    StandardName         varchar(40) comment '标准名称',
    InterCode            varchar(20) comment '采用的或相应的国际、国外标准号',
-   Status               varchar(20) comment '标准状态',
+   StdStatus            varchar(20) comment '标准状态',
    Remark               varchar(40) comment '备注',
    primary key (ArchId)
 );
 
-alter table LedStdArch comment 'Led标准体系表，生成标准框架展示模块';
+/*alter table LedStdArch comment 'Led标准体系表，生成标准框架展示模块';*/
 ```
