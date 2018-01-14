@@ -32,19 +32,22 @@ class LED {
 	private static function render($page) {
 		global $config;
 		$time_start = microtime();
-		$template_complete_path = $config['site']['template_folder'] . '/' . $page ;
-		$layout_complete_path = $config['site']['template_folder'] . '/' . $config['page']['layout'];
-		$layout_content = file_get_contents($layout_complete_path);
-		$template_content = file_get_contents($template_complete_path);
+		
+		$layout_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['layout']);
+		$template_content = file_get_contents($config['site']['template_folder'] . '/' . $page);
+		$header_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['header']);
+		$footer_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['footer']);
 		$replace_content = str_replace('{{ block body }}', $template_content, $layout_content);
 		
 		$entries = Array (
 			'title' => '安装',
-			'css_file' => 'main.css',
-			'header' => '安装',
-			'footer' => '标准查询系统',
+			'css_file' => 'templates/css/main.css',
+			'header' => $header_content,
+			'footer' => $footer_content,
 			'script' => '1.js',
 		);
+		
+		// print_r($entries);
 		
 		$result = Render::render_page($replace_content, $entries);
 		$time_used = '渲染时间：' . (microtime() - $time_start) . 's';
