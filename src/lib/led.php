@@ -19,17 +19,28 @@ class LED {
 	 * 开始
 	 */
 	public static function start() {
-		if (isset($_GET['login'])) {
-			$login_templates = Array(
-				'header_title' => '登录',
-				'title' => '标准查询系统 - 登录',
-			);
-			self::render('login', $login_templates);
-		} else if (isset($_GET['install'])) {
-			$install_templates = Array(
-				'header_title' => '安装',
-			);
-			self::render('install', $install_templates);
+		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+			if (isset($_GET['login'])) {
+				if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+					header('refresh:0;url=.');
+				}
+				
+				$login_templates = Array(
+					'header_title' => '登录',
+					'title' => '标准查询系统 - 登录',
+					'script' => 'templates/js/login.js',
+				);
+				self::render('login', $login_templates);
+			} else if (isset($_GET['install'])) {
+				$install_templates = Array(
+					'header_title' => '安装',
+				);
+				self::render('install', $install_templates);
+			}
+		} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$request = file_get_contents('php://input');
+			print_r($request);
+			exit();
 		}
 		
 		// 什么都获取不到则渲染主页
@@ -61,10 +72,12 @@ class LED {
 		$layout_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['layout']);
 		$template_content = file_get_contents($config['site']['template_folder'] . '/' . $page);
 		$header_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['header']);
+		$nav_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['nav']);
 		$footer_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['footer']);
-		// 替换body，header，footer三部分
-		$layout_content = str_replace('{{ block body }}', $template_content, $layout_content);
+		// 替换body，header，nav，footer三部分
 		$layout_content = str_replace('{{ header }}', $header_content, $layout_content);
+		$layout_content = str_replace('{{ nav }}', $nav_content, $layout_content);
+		$layout_content = str_replace('{{ block body }}', $template_content, $layout_content);
 		$layout_content = str_replace('{{ footer }}', $footer_content, $layout_content);
 		
 		$entries = Array (
@@ -74,6 +87,17 @@ class LED {
 			'script' 		=> '1.js',
 			'date'			=> date('Y年m月d日'),
 		);
+		
+		if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+			$login_entries = Array (
+				'login_info' => '登录了',
+			);
+		} else {
+			$login_entries = Array (
+				'login_info' => '<a href="?login">会员登录</a>'
+			);
+		}
+		$entries = array_merge($entries, $login_entries);
 		
 		// 将自定义渲染的部分放入$entries中
 		if ($page_templates != Array()) {

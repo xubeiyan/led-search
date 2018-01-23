@@ -7,6 +7,7 @@ $config = Array (
 		'index'		=> 'index.html',  			// 主页
 		'login'		=> 'login.html',			// 登录
 		'header'	=> 'parts/header.html',		// 页首部分
+		'nav'		=> 'parts/nav.html',		// 导航栏
 		'footer' 	=> 'parts/footer.html',		// 页脚部分
 	),
 	// 安装部分
@@ -15,8 +16,7 @@ $config = Array (
 	),
 	// 站点设置
 	'site' => Array (
-		'template_folder' => 'templates', 						// 模板位置
+		'template_folder' => 'templates', 		// 模板位置
 	),
-	
-)
+);
 ?>
