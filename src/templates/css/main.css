@@ -33,6 +33,8 @@
 		width: 100%;
 		background-color: #888;
 		color: #FFF;
+		padding-top: 5px;
+		padding-bottom: 5px;
 	}
 	
 	header div.header-container {
@@ -44,6 +46,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	
+	header div.header-container span.header-left {
+		padding-left: 5px;
 	}
 	
 	/* nav */
@@ -164,6 +170,7 @@
 		width: 800px;
 		/* border-top: 1px solid #CCC; */
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
 		color: #FFF;
@@ -178,5 +185,10 @@
 		width: 50%;
 		display: inline-block;
 		text-align: right;
+	}
+	
+	footer div.browser {
+		margin-top: 10px;
+		font-size: 12px;
 	}
 }
