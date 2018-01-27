@@ -16,7 +16,8 @@ $config = Array (
 	),
 	// 站点设置
 	'site' => Array (
-		'template_folder' => 'templates', 		// 模板位置
+		'template_folder' 	=> 'templates', 	// 模板位置
+		'login_validate'	=> false,
 	),
 );
 ?>
