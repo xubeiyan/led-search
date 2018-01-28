@@ -27,6 +27,7 @@ class LED {
 	 * 开始
 	 */
 	public static function start() {
+		session_start();
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			self::get_handler();
 		} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -41,6 +42,7 @@ class LED {
 	* 处理get请求
 	*/
 	private static function get_handler() {
+		// 登录
 		if (isset($_GET['login'])) {
 			if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
 				header('refresh:0;url=.');
@@ -52,11 +54,64 @@ class LED {
 				'script' => 'templates/js/login.js',
 			);
 			self::render('login', $login_templates);
-		} else if (isset($_GET['install'])) {
-			$install_templates = Array(
-				'header_title' => '安装',
+		// } else if (isset($_GET['install'])) {
+			// $install_templates = Array(
+				// 'header_title' => '安装',
+			// );
+			// self::render('install', $install_templates);
+		// 登出
+		} else if (isset($_GET['logout'])) {
+			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == false) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '并没有登录',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			unset($_SESSION['user']);
+		// 标准体系
+		} else if (isset($_GET['standard'])) {
+			$standard_templates = Array(
+				'header_title' => '标准体系结构图',
+				'title' => '标准LED查询系统 - 体系结构',
 			);
-			self::render('install', $install_templates);
+			self::render('standard', $standard_templates);
+		// 用户信息
+		} else if (isset($_GET['user'])) {
+			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == FALSE) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '并没有登录',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			$userInfo = DB::userInfo($_SESSION['user'], 'get');
+			
+			if ($userInfo == 'no such user') {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '未找到该用户',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			$user_templates = Array (
+				'header_title' => '用户信息',
+				'title' => '标准LED查询系统 - 用户信息',
+				'script' => 'templates/js/user.js',
+			);
+			
+			$user_templates = array_merge($user_templates, $userInfo);
+			
+			self::render('user', $user_templates);
+		// 管理页面
+		} else if (isset($_GET['manage'])) {
+			
 		}
 	}
 	
@@ -99,21 +154,35 @@ class LED {
 			
 			$user_info = DB::login($decode_req['username']);
 			
+			// 不存在此用户
 			if ($user_info == 'no such user') {
 				Error::errMsg('user_or_pass_error');
 			}
 			
-			if ($user_info['password'] != md5($decode_req['password'])) {
+			// 用户已停用
+			if ($user_info == 'user disabled') {
+				Error::errMsg('user_disable_error');
+			}
+			
+			if (!password_verify($decode_req['password'], $user_info['password'])) {
 				Error::errMsg('user_or_pass_error');
 			}
 			
+			
+			
 			$_SESSION['user']['status'] = true;
 			$_SESSION['user']['username'] = $decode_req['username'];
+			$_SESSION['user']['roleId'] = $user_info['roleId'];
 			
 			Error::succMsg('login_success');
 		// 查询
 		} else if ($decode_req['request'] == 'query') {
 			
+		// 更新用户信息
+		} else if ($decode_req['request'] == 'updateUserInfo') {
+			if ($decode_req['oldpass']) {
+				
+			}
 		}
 		exit();
 	}
@@ -159,10 +228,17 @@ class LED {
 			'date'			=> date('Y年m月d日'),
 		);
 		
-		if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
-			$login_entries = Array (
-				'login_info' => '登录了',
-			);
+		if (isset($_SESSION['user']['status']) && $_SESSION['user']['status'] == true) {
+			// 判断是不是管理员
+			if ($_SESSION['user']['roleId'] == 1) {
+				$login_entries = Array (
+					'login_info' => '<a href="?user">' . $_SESSION['user']['username'] . '</a> | <a href="?manage">管理</a> | <a href="?logout">登出</a>',
+				);	
+			} else {
+				$login_entries = Array (
+					'login_info' => '<a href="?user">' . $_SESSION['user']['username'] . '</a> | <a href="?logout">登出</a>',
+				);				
+			}
 		} else {
 			$login_entries = Array (
 				'login_info' => '<a href="?login">会员登录</a>'
@@ -179,8 +255,12 @@ class LED {
 		
 		$result = Render::render_page($layout_content, $entries);
 		$time_used = '渲染时间：' . (microtime() - $time_start) * 1000 . '毫秒';
+		
 		echo $result;
 		echo $time_used;
+		echo '<pre>';
+		print_r($_SESSION);
+		echo '</pre>';
 		exit();
 	}
 }

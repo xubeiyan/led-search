@@ -12,6 +12,10 @@ class Error {
 			$err_msg = $err_info;
 		} else if ($err_str == 'user_or_pass_error') {
 			$err_msg = '用户名或密码错误';
+		} else if ($err_str == 'not_login_error') {
+			$err_msg = '未登录';
+		} else if ($err_str == 'user_disable_error') {
+			$err_msg = '用户已停用';
 		} else {
 			$err_msg = '未知错误';
 		}
@@ -37,8 +41,8 @@ class Error {
 		
 		if ($type == 'json') {
 			$return_array = Array(
-				'type': $msg_str,
-				'msg': $succ_msg,
+				'type' => $succ_str,
+				'msg' => $succ_msg,
 			);
 			
 			header('Content-Type: application/json');

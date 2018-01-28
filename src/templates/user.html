@@ -1,0 +1,26 @@
+<div class="container">
+	<h1>用户信息</h1>
+	<hr>
+	<div class="input-area">
+		<label>用户名</label>
+		<span>%username%</span><br />
+		<label>显示名称</label>
+		<input type="text" id="nickname" value="%nickname%"/><br />
+		<label>邮箱</label>
+		<input type="text" id="email" value="%email%"/><br />
+		<label>旧密码</label>
+		<input type="password" id="oldpass"/><br />
+		<label>新密码</label>
+		<input type="password" id="newpass"/><br />
+		<label>确认密码</label>
+		<input type="password" id="confirm"/>
+	</div>
+	<div class="error-info">
+		<span id="errorInfo"></span>
+	</div>
+	<hr>
+	<div class="submit-area">
+		<button class="submit" onclick="submit()">更新</button>
+		<button class="back" onclick="window.location.href='.'">返回</button>
+	</div>
+</div>

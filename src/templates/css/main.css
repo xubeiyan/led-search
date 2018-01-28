@@ -16,6 +16,7 @@
 @media(min-width: 800px) {
 	body {
 		margin: 0;
+		font-family: "微软雅黑";
 	}
 	
 	/* a标签修改 */
@@ -31,10 +32,8 @@
 	/* header */
 	header {
 		width: 100%;
-		background-color: #888;
+		background-color: #386c90;
 		color: #FFF;
-		padding-top: 5px;
-		padding-bottom: 5px;
 	}
 	
 	header div.header-container {
@@ -50,6 +49,12 @@
 	
 	header div.header-container span.header-left {
 		padding-left: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	
+	header div.header-container span.header-right {
+		padding: 5px;
 	}
 	
 	/* nav */
@@ -80,7 +85,7 @@
 	}
 	
 	nav li:hover  {
-		background-color: #999;
+		background-color: #FFF;
 	}
 	
 	/* main */
@@ -99,6 +104,27 @@
 		padding-left: 20px;
 	}
 	
+	/* 标准体系结构 */
+	main div.container div.list {
+		display: flex;
+		justify-content: flex-start;
+	}
+	
+	main div.container div.list ul.list {
+		width: 50%;
+	}
+	
+	/* 信息 */
+	main div.container div.info-container {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	
+	main div.container div.info-container span.back {
+		color: #00F;
+	}
+		
+	/* 输入部分，用于登录 */	
 	main div.container div.input-area {
 		width: 100%;
 		padding-top: 50px;
@@ -116,9 +142,11 @@
 	}
 	
 	main div.container div.input-area input {
-		line-height: 30px;
+		line-height: 26px;
+		height: 26px;
 		margin-bottom: 10px;
 		width: 350px;
+		border: 1px solid #CCC;
 	}
 	
 	main div.container div.error-info {
@@ -133,6 +161,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		padding-bottom: 10px;
 	}
 	
 	main div.container div.submit-area button {
@@ -164,6 +193,15 @@
 	
 	main div.container div.submit-area button.reset:hover {
 		background-color: #B00;
+	}
+	
+	main div.container div.submit-area button.back {
+		border: 1px solid #999;
+		background-color: #FFF;
+	}
+	
+	main div.container div.submit-area button.back:hover {
+		background-color: #999;
 	}
 	
 	/* footer */
