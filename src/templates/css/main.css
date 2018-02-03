@@ -14,6 +14,11 @@
 
 /* 普通显示 */
 @media(min-width: 800px) {
+	/* 
+	header颜色 	#386c90		确认按钮颜色	#12cc12
+	nav颜色 	#DDD		重置按钮颜色	#fb5e5e
+	footer颜色	#333		返回按钮颜色	#
+	*/
 	body {
 		margin: 0;
 		font-family: "微软雅黑";
@@ -157,6 +162,14 @@
 		color: #F00;
 	}
 	
+	main div.container div.success-info {
+		line-height: 30px;
+		width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+		color: #00F;
+	}
+	
 	main div.container div.submit-area {
 		display: flex;
 		justify-content: center;
@@ -178,30 +191,59 @@
 	}
 	
 	main div.container div.submit-area button.submit {
-		border: 1px solid #0B0;
+		border: 1px solid #12cc12;
 		background-color: #FFF;
 	}
 	
 	main div.container div.submit-area button.submit:hover {
-		background-color: #0B0;
+		background-color: #12cc12;
 	}
 	
 	main div.container div.submit-area button.reset {
-		border: 1px solid #B00;
+		border: 1px solid #fb5e5e;
 		background-color: #FFF;
 	}
 	
 	main div.container div.submit-area button.reset:hover {
-		background-color: #B00;
+		background-color: #fb5e5e;
 	}
 	
 	main div.container div.submit-area button.back {
-		border: 1px solid #999;
+		border: 1px solid #BBB;
 		background-color: #FFF;
 	}
 	
 	main div.container div.submit-area button.back:hover {
-		background-color: #999;
+		background-color: #BBB;
+	}
+	
+	main table {
+		margin-left: auto;
+		margin-right: auto;
+		width: 700px;
+		border: 1px solid #DDD;
+		border-collapse: collapse;
+	}
+	
+	main table tr {
+		
+	}
+	
+	main table td {
+		height: 40px;
+		border: 1px solid #DDD;
+		margin: 0;
+		padding: 10px;
+	}
+	
+	main table td button {
+		background-color: #386c90;
+		color: #FFF;
+		height: 30px;
+		width: 100px;
+		border-radius: 5px;
+		border: 0;
+		cursor: pointer;
 	}
 	
 	/* footer */

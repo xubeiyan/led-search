@@ -16,6 +16,10 @@ class Error {
 			$err_msg = '未登录';
 		} else if ($err_str == 'user_disable_error') {
 			$err_msg = '用户已停用';
+		} else if ($err_str == 'oldpass_incorrect_error') {
+			$err_msg = '旧密码不正确';
+		} else if ($err_str == 'oldpass_require_error') {
+			$err_msg = '必须提供旧密码';
 		} else {
 			$err_msg = '未知错误';
 		}
@@ -37,6 +41,8 @@ class Error {
 	public static function succMsg($succ_str, $type = 'json') {
 		if ($succ_str == 'login_success') {
 			$succ_msg = '登录成功';
+		} else if ($succ_str == 'update_success') {
+			$succ_msg = '修改成功';
 		}
 		
 		if ($type == 'json') {

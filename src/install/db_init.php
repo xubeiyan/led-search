@@ -3,7 +3,7 @@ $admin_pass_hash = password_hash('isthereapass', PASSWORD_DEFAULT);
 $user_pass_hash = password_hash('abc', PASSWORD_DEFAULT);
 $disable_pass_hash = password_hash('disable', PASSWORD_DEFAULT);
 
-$sql = 'DROP TABLE if exists LedRole;
+$create_table_sql = 'DROP TABLE if exists LedRole;
 
 CREATE TABLE LedRole
 (
@@ -41,9 +41,9 @@ CREATE TABLE LedStdEntity
    EntityId             INT NOT NULL AUTO_INCREMENT,
    ArchId               INT,
    StdNum               VARCHAR(20) COMMENT "标准编号",
-   StdLevel             INT COMMENT "标准层级",
-   ChName               VARCHAR(40) COMMENT "中文名称",
-   EnName               VARCHAR(40) COMMENT "英文名称",
+   StdLevel             VARCHAR(20) COMMENT "标准层级",
+   ChName               VARCHAR(255) COMMENT "中文名称",
+   EnName               VARCHAR(255) COMMENT "英文名称",
    ReleaseDate          DATE COMMENT "发布日期",
    ImpelementDate       DATE COMMENT "实施日期",
    AlterStandard        VARCHAR(40) COMMENT "代替标准",
@@ -77,9 +77,9 @@ CREATE TABLE LedStdArch
    StdStatus            VARCHAR(20) COMMENT "标准状态",
    Remark               VARCHAR(40) COMMENT "备注",
    PRIMARY KEY (ArchId)
-);
+);';
 
-INSERT INTO LedRole (
+$insert_userdata_sql = 'INSERT INTO LedRole (
 	`roletype`, `remark`        ,`createTime`, `updateTime`
 ) VALUES (
 	"管理员"  , "最高权限拥有者", NOW()      , NOW()
@@ -108,12 +108,40 @@ INSERT INTO LedUser (
 ) VALUES (
 	2       , "disable" ,"' . $disable_pass_hash . '", "disable"     , "disable"    , NOW()       , NOW()       , ""
 );
+
+INSERT INTO LedRole (
+	`roletype`, `remark`, `createTime`, `updateTime`
+) VALUES (
+	"VIP用户", ""      , NOW()       , NOW()
+);
+
+INSERT INTO LedUser (
+	`RoleId`, `username`, `pwd`                      , `nickname`, `userStatus`, `createTime`, `updateTime`, `email`
+) VALUES (
+	3       , "vip" ,"' . $user_pass_hash . '", "vip"     , "enable"    , NOW()       , NOW()       , ""
+);
 ';
 
 
+$datasql = 'INSERT INTO LedStdEntity (
+	ArchId, StdNum           , StdLevel  , ChName                     , EnName                                                , 
+	ReleaseDate, ImpelementDate, AlterStandard, AdoptNo, AdoptName, AdoptLev, AdoptType, ICS        , CCS  , StandardType, 
+	DepartCharge           , DepartResponse                       , 
+	CtnLink                                                                             , Abstract
+) VALUES (
+	1     , "GB/T 31111-2014", "国家标准", "反射型自镇流LED灯规格分类", "Classification of self-ballasted LED reflector lamps",
+	"2014/9/3" , "2015/8/1"    , ""           , ""     , ""       , ""      , "无"     , "29.140.99", "K71", "产品"      ,
+	"中国轻工业联合会(607)", "全国照明电器标准化技术委员会(TC224)", 
+	"http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=8D850753CED321658C986E67A10EEBBF", 
+	"本标准规定了用于替换PAR系列卤钨灯的反射型自镇流LED灯的规格分类。
+    本标准适用于在家庭、商业和类似场合作为定向照明用，把稳定燃点部件集成为一体的发射型自镇流LED灯。
+    适用范围如下：额定电压AC 220V 50Hz；符合GB/T 1406.1、GB/T 1406.2或GB/T 1406.5要求的灯头。
+    本标准产品规格分类包括：外形规格、光束角规格、光通量规格、色调规格等4个方面。"
+);';
+
 $conn = mysqli_connect('localhost', 'root', '', 'led_search');
 mysqli_set_charset($conn, 'utf8');
-if (mysqli_multi_query($conn, $sql)) {
+if (mysqli_multi_query($conn, $insert_userdata_sql)) {
 	echo 'create tables successful!<br />';
 } else {
 	die(mysqli_error($conn));

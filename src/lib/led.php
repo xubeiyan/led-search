@@ -112,6 +112,51 @@ class LED {
 		// 管理页面
 		} else if (isset($_GET['manage'])) {
 			
+		// 浏览页面
+		} else if (isset($_GET['view'])) {
+			if (!isset($_GET['entityid'])) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '没有提供EntityID',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			$entityid = is_numeric($_GET['entityid']) ? $_GET['entityid'] : 0;
+			
+			$searchArray = Array(
+				'entityid' => $entityid
+			);
+			
+			$resultArray = DB::viewStd($searchArray);
+			
+			if ($resultArray == 'no record') {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '没找到EntityID为' . $entityid . '的记录',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			$view_templates = Array(
+				'title' => '标准LED查询系统 - 浏览',
+			);
+			
+			$view_templates = array_merge($view_templates, $resultArray);
+			
+			// print_r($resultArray);
+			// exit();
+			
+			self::render('view', $view_templates);
+		// 标准体系统计
+		} else if (isset($_GET['statistics'])) {
+			$statistics_templates = Array(
+				'title' => '标准LED查询系统 - 标准体系统计',
+			);
+			
+			self::render('statistics', $statistics_templates);
 		}
 	}
 	
@@ -133,6 +178,7 @@ class LED {
 		
 		// 登录
 		if ($decode_req['request'] == 'login') {
+			
 			global $config;
 			
 			// 是否设置登录验证
@@ -142,7 +188,7 @@ class LED {
 						'regexp' => '/^[A-Za-z0-9]{1,32}$/', // A-Za-z0-9的1到32位
 					),
 					'password' => Array(
-						'regexp' => '/^[\w]{6,32}$/', // \w的6-32位
+						'regexp' => '/^[\w]{1,32}$/', // \w的6-32位
 					),
 				);
 				$result = Util::expect($expect_array, $decode_req);
@@ -164,11 +210,10 @@ class LED {
 				Error::errMsg('user_disable_error');
 			}
 			
+			
 			if (!password_verify($decode_req['password'], $user_info['password'])) {
 				Error::errMsg('user_or_pass_error');
 			}
-			
-			
 			
 			$_SESSION['user']['status'] = true;
 			$_SESSION['user']['username'] = $decode_req['username'];
@@ -177,11 +222,41 @@ class LED {
 			Error::succMsg('login_success');
 		// 查询
 		} else if ($decode_req['request'] == 'query') {
+
 			
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {
-			if ($decode_req['oldpass']) {
-				
+			
+			// 未提供旧密码
+			if (!isset($decode_req['oldpass'])) {
+				Error::errMsg('oldpass_require_error');
+			}
+			
+			$user_info = DB::login($_SESSION['user']['username']);
+			
+			// 不存在此用户
+			if ($user_info == 'no such user') {
+				Error::errMsg('user_or_pass_error');
+			}
+			
+			// 用户已停用
+			if ($user_info == 'user disabled') {
+				Error::errMsg('user_disable_error');
+			} 
+			
+			if (!password_verify($decode_req['oldpass'], $user_info['password'])) {
+				Error::errMsg('oldpass_incorrect_error');
+			}
+			
+			$userInfo = Array (
+				'username' => $_SESSION['user']['username'],
+				'nickname' => isset($decode_req['nickname']) ? $decode_req['nickname'] : '',
+				'newpass' => $decode_req['newpass'],
+				'email' => isset($decode_req['email']) ? $decode_req['email'] : "",
+			);
+			
+			if (DB::userInfo($userInfo, 'set') == 'update success') {
+				Error::succMsg('update_success');				
 			}
 		}
 		exit();
