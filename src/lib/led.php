@@ -157,6 +157,61 @@ class LED {
 			);
 			
 			self::render('statistics', $statistics_templates);
+		// 标准查找结果
+		} else if (isset($_GET['search'])) {
+			$searchArray = Array();
+			if (isset($_GET['standard_type'])) {
+				$searchArray['standard_type'] = $_GET['standard_type'] == '' ? '*' : $_GET['standard_type'];
+			} else if (isset($_GET['product_type'])) {
+				$searchArray['product_type'] = $_GET['product_type'] == '' ? '*' : $_GET['product_type'];
+			} else if (isset($_GET['product_type'])) {
+				$searchArray['std_level'] = $_GET['std_level'] == '' ? '*' : $_GET['std_level'];
+			} else if (isset($_GET['product_type'])) {
+				$searchArray['std_status'] = $_GET['std_status'] == '' ? '*' : $_GET['std_status'];
+			}
+			
+			if (isset($_GET['page'])) {
+				$page = $_GET['page'] == '' ? 0 : $_GET['page'];
+			} else {
+				$page = 0;
+			}
+			
+			global $config;
+			
+			$pageArray = Array(
+				'from' 		=> $page * $config['site']['record_per_page'],
+				'perPage' 	=> $config['site']['record_per_page'],
+			);
+			
+			$result = DB::search($searchArray, $pageArray);
+			
+			if ($result == Array()) {
+				$info_templates = Array(
+					'title' => '·_>·',
+					'info' => '没找到记录',
+					'backUrl' => '?stdsearch',
+				);
+				self::render('info', $info_templates);
+			}
+			print_r($result);
+			exit();
+		// 高级查找结果
+		} else if (isset($_GET['advancesearch'])) {
+		
+		// 标准查询
+		} else if (isset($_GET['stdsearch'])) {
+			$std_templates = Array (
+				'header_title' => '标准查询',
+				'title' => '标准LED查询系统 - 标准查询',
+			);
+			self::render('stdsearch', $std_templates);
+		// 高级查询
+		} else if (isset($_GET['advancesearch'])) {
+			$std_templates = Array (
+				'header_title' => '高级查询',
+				'title' => '标准LED查询系统 - 高级查询',
+			);
+			self::render('stdsearch', $std_templates);
 		}
 	}
 	

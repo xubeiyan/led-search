@@ -109,5 +109,40 @@ class DB {
 		
 		return $row;
 	}
+	
+	/**
+	* 查找
+	*/
+	public static function search($searchArray, $pageArray) {
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		// 标准类型
+		if (isset($searchArray['standard_type'])) {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `standardtype` LIKE "%s" LIMIT %d OFFSET %d', 
+				$searchArray['standard_type'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		// 产品类型
+		} else if ($searchArray['product_type']) {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `producttype` LIKE "%s" LIMIT %d OFFSET %d', 
+				$searchArray['product_type'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		// 标准层级
+		} else if ($searchArray['std_level']) {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdlevel` LIKE "%s" LIMIT %d OFFSET %d', 
+				$searchArray['std_level'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		// 标准状态
+		} else if ($searchArray['std_status']) {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `producttype` LIKE "%s" LIMIT %d OFFSET %d', 
+				$searchArray['std_status'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		}
+		
+		$result = mysqli_query($conn, $sql);
+		
+		$returnArray = Array();
+		
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($returnArray, $row);
+		}
+		
+		return $returnArray;
+	}
 }
 ?>

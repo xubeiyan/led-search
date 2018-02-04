@@ -236,6 +236,10 @@
 		padding: 10px;
 	}
 	
+	main table td a {
+		color: #386c90;
+	}
+	
 	main table td button {
 		background-color: #386c90;
 		color: #FFF;

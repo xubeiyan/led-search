@@ -46,6 +46,7 @@ CREATE TABLE LedStdEntity
    EnName               VARCHAR(255) COMMENT "英文名称",
    ReleaseDate          DATE COMMENT "发布日期",
    ImpelementDate       DATE COMMENT "实施日期",
+   StdStatus			VARCHAR(20) COMMENT "标准状态",
    AlterStandard        VARCHAR(40) COMMENT "代替标准",
    AdoptNo              VARCHAR(20) COMMENT "采标号",
    AdoptName            VARCHAR(40) COMMENT "采标名称",
@@ -54,8 +55,10 @@ CREATE TABLE LedStdEntity
    ICS                  VARCHAR(20) COMMENT "ICS",
    CCS                  VARCHAR(20) COMMENT "CCS",
    StandardType         VARCHAR(20) COMMENT "标准类型",
+   ProductType			VARCHAR(20) COMMENT "产品类型",
    DepartCharge         VARCHAR(127) COMMENT "主管部门",
    DepartResponse		VARCHAR(127) COMMENT "归口单位",
+   AnnounceNum			VARCHAR(20) COMMENT "公告号",
    CtnLink              VARCHAR(255) COMMENT "全文链接",
    Abstract             TEXT COMMENT "摘要",
    PRIMARY KEY (EntityId)
@@ -125,13 +128,14 @@ INSERT INTO LedUser (
 
 $datasql = 'INSERT INTO LedStdEntity (
 	ArchId, StdNum           , StdLevel  , ChName                     , EnName                                                , 
-	ReleaseDate, ImpelementDate, AlterStandard, AdoptNo, AdoptName, AdoptLev, AdoptType, ICS        , CCS  , StandardType, 
-	DepartCharge           , DepartResponse                       , 
+	ReleaseDate, ImpelementDate, StdStatus , AlterStandard, AdoptNo, 
+	AdoptName, AdoptLev, AdoptType, ICS        , CCS  , StandardType, 
+	ProductType, DepartCharge           , DepartResponse                       , AnnounceNum ,
 	CtnLink                                                                             , Abstract
 ) VALUES (
 	1     , "GB/T 31111-2014", "国家标准", "反射型自镇流LED灯规格分类", "Classification of self-ballasted LED reflector lamps",
-	"2014/9/3" , "2015/8/1"    , ""           , ""     , ""       , ""      , "无"     , "29.140.99", "K71", "产品"      ,
-	"中国轻工业联合会(607)", "全国照明电器标准化技术委员会(TC224)", 
+	"2014/9/3" , "2015/8/1"    , "现行有效", ""           , ""     , ""       , ""      , "无"     , "29.140.99", "K71", "产品"      ,
+	"LED光源"  ,"中国轻工业联合会(607)", "全国照明电器标准化技术委员会(TC224)", "2014年第21号",
 	"http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=8D850753CED321658C986E67A10EEBBF", 
 	"本标准规定了用于替换PAR系列卤钨灯的反射型自镇流LED灯的规格分类。
     本标准适用于在家庭、商业和类似场合作为定向照明用，把稳定燃点部件集成为一体的发射型自镇流LED灯。
