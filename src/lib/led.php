@@ -157,52 +157,12 @@ class LED {
 			);
 			
 			self::render('statistics', $statistics_templates);
-		// 标准查找结果
-		} else if (isset($_GET['search'])) {
-			$searchArray = Array();
-			if (isset($_GET['standard_type'])) {
-				$searchArray['standard_type'] = $_GET['standard_type'] == '' ? '*' : $_GET['standard_type'];
-			} else if (isset($_GET['product_type'])) {
-				$searchArray['product_type'] = $_GET['product_type'] == '' ? '*' : $_GET['product_type'];
-			} else if (isset($_GET['product_type'])) {
-				$searchArray['std_level'] = $_GET['std_level'] == '' ? '*' : $_GET['std_level'];
-			} else if (isset($_GET['product_type'])) {
-				$searchArray['std_status'] = $_GET['std_status'] == '' ? '*' : $_GET['std_status'];
-			}
-			
-			if (isset($_GET['page'])) {
-				$page = $_GET['page'] == '' ? 0 : $_GET['page'];
-			} else {
-				$page = 0;
-			}
-			
-			global $config;
-			
-			$pageArray = Array(
-				'from' 		=> $page * $config['site']['record_per_page'],
-				'perPage' 	=> $config['site']['record_per_page'],
-			);
-			
-			$result = DB::search($searchArray, $pageArray);
-			
-			if ($result == Array()) {
-				$info_templates = Array(
-					'title' => '·_>·',
-					'info' => '没找到记录',
-					'backUrl' => '?stdsearch',
-				);
-				self::render('info', $info_templates);
-			}
-			print_r($result);
-			exit();
-		// 高级查找结果
-		} else if (isset($_GET['advancesearch'])) {
-		
 		// 标准查询
 		} else if (isset($_GET['stdsearch'])) {
 			$std_templates = Array (
 				'header_title' => '标准查询',
 				'title' => '标准LED查询系统 - 标准查询',
+				'script' => 'templates/js/search.js',
 			);
 			self::render('stdsearch', $std_templates);
 		// 高级查询
@@ -275,9 +235,35 @@ class LED {
 			$_SESSION['user']['roleId'] = $user_info['roleId'];
 			
 			Error::succMsg('login_success');
-		// 查询
-		} else if ($decode_req['request'] == 'query') {
-
+		// 标准查询
+		} else if ($decode_req['request'] == 'stdsearch') {
+			$searchArray = Array();
+			$searchArray['keyword'] = isset($decode_req['keyword']) ? $decode_req['keyword'] : '%';
+			$searchArray['search_type'] = isset($decode_req['search_type']) ? $decode_req['search_type'] : 'standard_type';
+			
+			if (!($searchArray['search_type'] == 'standard_type' || $searchArray['search_type'] == 'product_type' ||
+				$searchArray['search_type'] == 'stdlevel' || $searchArray['search_type'] == 'std_status' || 
+				$searchArray['search_type'] == 'std_num' || $searchArray['search_type'] == 'std_name')) {
+					$searchArray['search_type'] = 'standard_type';
+				}
+			
+			if (isset($decode_req['page'])) {
+				$page = $decode_req['page'] == '' ? 0 : $decode_req['page'];
+			} else {
+				$page = 0;
+			}
+			
+			global $config;
+			
+			$pageArray = Array(
+				'from' 		=> $page * $config['site']['record_per_page'],
+				'perPage' 	=> $config['site']['record_per_page'],
+			);
+			
+			$result = DB::search($searchArray, $pageArray);
+			
+			Util::searchResult($result);
+			
 			
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {

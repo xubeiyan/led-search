@@ -18,6 +18,31 @@ class Util {
 		}
 		return 'pass';
 	}
+	
+	/**
+	* 输出查询结果
+	*/
+	public static function searchResult($resultArray) {
+		header('Content-Type: application/json');
+		
+		if ($resultArray == Array()) {
+			$return_array = Array(
+				'found_result' => 0,
+				'results' => Array(),
+			);
+			
+			exit(json_encode($return_array, JSON_UNESCAPED_UNICODE));
+		} else {
+			$length = count($resultArray);
+		
+			$return_array = Array(
+				'found_result' => $length,
+				'results' => $resultArray,
+			);
+			
+			exit(json_encode($return_array, JSON_UNESCAPED_UNICODE));
+		} 
+	}
 }
 
 ?>

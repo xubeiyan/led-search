@@ -116,22 +116,32 @@ class DB {
 	public static function search($searchArray, $pageArray) {
 		$conn = self::connect();
 		mysqli_set_charset($conn, 'utf8');
+		$search_type = $searchArray['search_type'];
+		$keyword = $searchArray['keyword'];
 		// 标准类型
-		if (isset($searchArray['standard_type'])) {
+		if ($search_type == 'standard_type') {
 			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `standardtype` LIKE "%s" LIMIT %d OFFSET %d', 
-				$searchArray['standard_type'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		// 产品类型
-		} else if ($searchArray['product_type']) {
+		} else if ($search_type == 'product_type') {
 			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `producttype` LIKE "%s" LIMIT %d OFFSET %d', 
-				$searchArray['product_type'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		// 标准层级
-		} else if ($searchArray['std_level']) {
+		} else if ($search_type == 'stdlevel') {
 			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdlevel` LIKE "%s" LIMIT %d OFFSET %d', 
-				$searchArray['std_level'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		// 标准状态
-		} else if ($searchArray['std_status']) {
-			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `producttype` LIKE "%s" LIMIT %d OFFSET %d', 
-				$searchArray['std_status'], $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		} else if ($search_type == 'std_status') {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdstatus` LIKE "%s" LIMIT %d OFFSET %d', 
+				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		// 标准号
+		} else if ($search_type == 'std_num') {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdnum` LIKE "%s" LIMIT %d OFFSET %d', 
+				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+		// 标准名称
+		} else if ($search_type == 'std_name') {
+			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE (`chname` LIKE "%s" OR `enname` LIKE "%s") LIMIT %d OFFSET %d', 
+				$keyword, $keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		}
 		
 		$result = mysqli_query($conn, $sql);
@@ -144,5 +154,7 @@ class DB {
 		
 		return $returnArray;
 	}
+	
+	
 }
 ?>

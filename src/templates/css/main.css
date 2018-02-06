@@ -17,7 +17,7 @@
 	/* 
 	header颜色 	#386c90		确认按钮颜色	#12cc12
 	nav颜色 	#DDD		重置按钮颜色	#fb5e5e
-	footer颜色	#333		返回按钮颜色	#
+	footer颜色	#333		返回按钮颜色	#BBB
 	*/
 	body {
 		margin: 0;
@@ -131,7 +131,7 @@
 		
 	/* 输入部分，用于登录 */	
 	main div.container div.input-area {
-		width: 100%;
+		width: calc(100% - 80px);
 		padding-top: 50px;
 		padding-bottom: 50px;
 		padding-left: 40px;
@@ -154,6 +154,36 @@
 		border: 1px solid #CCC;
 	}
 	
+	main div.container div.input-area select {
+		line-height: 26px;
+		width: 150px;
+		height: 30px;
+		margin-bottom: 10px;
+		margin-right: 10px;
+		border: 1px solid #CCC;
+	}
+	
+	main div.container div.flex {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	main div.container div.flex button {
+		height: 30px;
+		background-color: #BBB;
+		border: 1px solid #BBB;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		cursor: pointer;
+	}
+	
+	
+	main div.container div.search-result-area {
+		width: 700px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 	main div.container div.error-info {
 		line-height: 30px;
 		width: 400px;
@@ -216,6 +246,8 @@
 	main div.container div.submit-area button.back:hover {
 		background-color: #BBB;
 	}
+	
+	
 	
 	main table {
 		margin-left: auto;
