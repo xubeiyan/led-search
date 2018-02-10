@@ -20,6 +20,12 @@ class Error {
 			$err_msg = '旧密码不正确';
 		} else if ($err_str == 'oldpass_require_error') {
 			$err_msg = '必须提供旧密码';
+		} else if ($err_str == 'not_admin_error') {
+			$err_msg = '当前用户不是管理员';
+		} else if ($err_str == 'update_empty_error') {
+			$err_msg = '修改内容为空';
+		} else if ($err_str == 'unexpect_end_error') {
+			$err_msg = 'Unexpected end!';
 		} else {
 			$err_msg = '未知错误';
 		}

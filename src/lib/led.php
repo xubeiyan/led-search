@@ -111,7 +111,41 @@ class LED {
 			self::render('user', $user_templates);
 		// 管理页面
 		} else if (isset($_GET['manage'])) {
+			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '当前用户并不是管理员',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
 			
+			$page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 0;
+			$prevPage = $page == 0 ? 0 : $page - 1;
+			$nextPage = $page + 1;
+			
+			global $config;
+			$info = Array(
+				'perPage' => $config['site']['record_per_page'],
+				'page' => $page,
+			);
+			
+			$result = DB::userTable($info, 'get');
+			
+			$userTable = Util::makeUserTable($result);
+			
+			// $_SESSION['query']['record_num'] = count($result);
+			
+			$manage_templates = Array (
+				'userTable' => $userTable,
+				'prevdisable' => $info['page'] == 0 ? 'disabled' : '',
+				'prevPage' => $prevPage,
+				'nextdisable' => count($result) < $config['site']['record_per_page'] + 1 ? 'disabled' : '',
+				'nextPage' => $nextPage,
+				'script' => 'templates/js/manage.js',
+			);
+			
+			self::render('manage', $manage_templates);
 		// 浏览页面
 		} else if (isset($_GET['view'])) {
 			if (!isset($_GET['entityid'])) {
@@ -170,8 +204,12 @@ class LED {
 			$std_templates = Array (
 				'header_title' => '高级查询',
 				'title' => '标准LED查询系统 - 高级查询',
+				'script' => 'templates/js/advancesearch.js',
 			);
-			self::render('stdsearch', $std_templates);
+			self::render('advancesearch', $std_templates);
+		// 用于清除SESSION
+		} else if (isset($_GET['session_clear'])) {
+			$_SESSION = Array();
 		}
 	}
 	
@@ -238,14 +276,12 @@ class LED {
 		// 标准查询
 		} else if ($decode_req['request'] == 'stdsearch') {
 			$searchArray = Array();
-			$searchArray['keyword'] = isset($decode_req['keyword']) ? $decode_req['keyword'] : '%';
+			$searchArray['keyword'] = isset($decode_req['keyword']) ? '%' . $decode_req['keyword'] . '%' : '%';
 			$searchArray['search_type'] = isset($decode_req['search_type']) ? $decode_req['search_type'] : 'standard_type';
 			
-			if (!($searchArray['search_type'] == 'standard_type' || $searchArray['search_type'] == 'product_type' ||
-				$searchArray['search_type'] == 'stdlevel' || $searchArray['search_type'] == 'std_status' || 
-				$searchArray['search_type'] == 'std_num' || $searchArray['search_type'] == 'std_name')) {
-					$searchArray['search_type'] = 'standard_type';
-				}
+			if (!($searchArray['search_type'] == 'std_num' || $searchArray['search_type'] == 'std_name')) {
+				$searchArray['search_type'] = 'std_num';
+			}
 			
 			if (isset($decode_req['page'])) {
 				$page = $decode_req['page'] == '' ? 0 : $decode_req['page'];
@@ -262,12 +298,11 @@ class LED {
 			
 			$result = DB::search($searchArray, $pageArray);
 			
-			Util::searchResult($result);
-			
-			
+			$returnArray = Util::searchResult($result);
+			echo json_encode($returnArray, JSON_UNESCAPED_UNICODE);
+			exit();
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {
-			
 			// 未提供旧密码
 			if (!isset($decode_req['oldpass'])) {
 				Error::errMsg('oldpass_require_error');
@@ -299,6 +334,19 @@ class LED {
 			if (DB::userInfo($userInfo, 'set') == 'update success') {
 				Error::succMsg('update_success');				
 			}
+			
+			Error::errMsg('unexpect_end_error');
+		// 修改用户列表中的信息
+		} else if ($decode_req['request'] == 'updateUserTable') {
+			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
+				Error::errMsg('not_admin_error');
+			}
+			
+			if (!isset($decode_req['update']) || $decode_req['update'] == Array()) {
+				Error::errMsg('update_empty_error');
+			}
+			
+			DB::userTable($decode_req['update'], 'set');
 		}
 		exit();
 	}
@@ -322,8 +370,11 @@ class LED {
 		if (!file_exists($config['site']['template_folder'] . '/' . $page)) {
 			die('template file <b>' . $page . '</b> seems not exists...');
 		}
-		 
-		$time_start = microtime();
+		
+		// 渲染时间开始
+		if ($config['site']['render_time_display'] == true) {
+			$time_start = microtime();			
+		}
 		
 		$layout_content = file_get_contents($config['site']['template_folder'] . '/' . $config['page']['layout']);
 		$template_content = file_get_contents($config['site']['template_folder'] . '/' . $page);
@@ -370,13 +421,21 @@ class LED {
 		// print_r($entries);
 		
 		$result = Render::render_page($layout_content, $entries);
-		$time_used = '渲染时间：' . (microtime() - $time_start) * 1000 . '毫秒';
-		
 		echo $result;
-		echo $time_used;
-		echo '<pre>';
-		print_r($_SESSION);
-		echo '</pre>';
+		
+		// 渲染时间结束
+		if ($config['site']['render_time_display'] == true) {
+			$time_used = '渲染时间：' . (microtime() - $time_start) * 1000 . '毫秒';
+			echo $time_used;
+		}
+		
+		// 显示SESSION
+		if ($config['site']['session_display'] == true) {
+			echo '<pre>';
+			print_r($_SESSION);
+			echo '</pre>';
+		}
+		
 		exit();
 	}
 }

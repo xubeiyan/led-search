@@ -156,7 +156,7 @@
 	
 	main div.container div.input-area select {
 		line-height: 26px;
-		width: 150px;
+		width: 100px;
 		height: 30px;
 		margin-bottom: 10px;
 		margin-right: 10px;
@@ -247,6 +247,16 @@
 		background-color: #BBB;
 	}
 	
+	main div.container div.submit-area button.pagechange {
+		border: 1px solid #386c90;
+		background-color: #FFF;
+	}
+	
+	main div.container div.submit-area button.pagechange:disabled {
+		border: 1px solid #EEE;
+		background-color: #EEE;
+		color: #CCC;
+	}
 	
 	
 	main table {
@@ -257,8 +267,8 @@
 		border-collapse: collapse;
 	}
 	
-	main table tr {
-		
+	main table tr.header {
+		background-color: #CCC;
 	}
 	
 	main table td {

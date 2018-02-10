@@ -155,6 +155,35 @@ class DB {
 		return $returnArray;
 	}
 	
-	
+	/**
+	* 查询/更新用户列表
+	*/
+	public static function userTable($infoArray, $operation) {
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		
+		if ($operation == 'get') {
+			$page = isset($infoArray['page']) && is_numeric($infoArray['page']) ? $infoArray['page'] : 0;
+			$perPage = $infoArray['perPage'];
+			$from = $page * $perPage;
+			
+			$sql = sprintf('SELECT * FROM `leduser` LIMIT %d OFFSET %d', $perPage + 1, $from);
+			
+			$result = mysqli_query($conn, $sql);
+			
+			$returnArray = Array();
+			
+			while ($row = mysqli_fetch_assoc($result)) {
+				array_push($returnArray, $row);
+			}
+			
+			return $returnArray;
+		} else if ($operation == 'set') {
+			foreach ($infoArray as $value) {
+				$id = $value['id'];
+				
+			}
+		}
+	}
 }
 ?>

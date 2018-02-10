@@ -1,19 +1,20 @@
 <div class="container">
-	<h1>标准查询</h1>
+	<h1>高级查询</h1>
 	<hr>
 	<div class="input-area">
 		<div class="flex">
 			<select id="searchtype">
-				<option selected value="std_num">标准号</option>
-				<option value="std_name">标准名称</option>
-				<option value="keyword">关键字</option>
+				<option selected value="product_type">产品类型</option>
+				<option value="std_type">标准类型</option>
+				<option value="std_level">标准层级</option>
+				<option value="std_time">出版年限</option>
+				<option value="std_status">标准状态</option>
+			</select>
+			<select id="searchsubtype">
 			</select>
 			<input id="searchvalue" type="text" value="" placeholder="请输入查询关键字"/>
 			<button id="searchbutton">查询</button>
 		</div>
-	</div>
-	<div class="error-info">
-		<span id="errorInfo"></span>
 	</div>
 	<hr>
 	<div id="searchresult" class="search-result-area">

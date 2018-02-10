@@ -42,6 +42,7 @@ CREATE TABLE LedStdEntity
    ArchId               INT,
    StdNum               VARCHAR(20) COMMENT "标准编号",
    StdLevel             VARCHAR(20) COMMENT "标准层级",
+   Category				VARCHAR(20) COMMENT "行业分类",
    ChName               VARCHAR(255) COMMENT "中文名称",
    EnName               VARCHAR(255) COMMENT "英文名称",
    ReleaseDate          DATE COMMENT "发布日期",
@@ -91,7 +92,7 @@ $insert_userdata_sql = 'INSERT INTO LedRole (
 INSERT INTO LedUser (
 	`RoleId`, `username`, `pwd`                    , `nickname`, `userStatus`, `createTime`, `updateTime`, `email`
 ) VALUES (
-	1       , "admin"   ,"' . $admin_pass_hash . '", "admin"   , "enable"    , NOW()       , NOW()       , ""
+	1       , "admin"   ,"' . $admin_pass_hash . '", "admin"   , "enable"    , NOW()       , NOW()       , "admin@led.cn"
 );
 
 INSERT INTO LedRole (
@@ -103,13 +104,13 @@ INSERT INTO LedRole (
 INSERT INTO LedUser (
 	`RoleId`, `username`, `pwd`                   , `nickname`, `userStatus`, `createTime`, `updateTime`, `email`
 ) VALUES (
-	2       , "abc"     ,"' . $user_pass_hash . '", "abc"     , "enable"    , NOW()       , NOW()       , ""
+	2       , "abc"     ,"' . $user_pass_hash . '", "abc"     , "enable"    , NOW()       , NOW()       , "abc@led.cn"
 );
 
 INSERT INTO LedUser (
 	`RoleId`, `username`, `pwd`                      , `nickname`, `userStatus`, `createTime`, `updateTime`, `email`
 ) VALUES (
-	2       , "disable" ,"' . $disable_pass_hash . '", "disable"     , "disable"    , NOW()       , NOW()       , ""
+	2       , "disable" ,"' . $disable_pass_hash . '", "disable"     , "disable"    , NOW()       , NOW()       , "disable@led.cn"
 );
 
 INSERT INTO LedRole (
@@ -121,19 +122,21 @@ INSERT INTO LedRole (
 INSERT INTO LedUser (
 	`RoleId`, `username`, `pwd`                      , `nickname`, `userStatus`, `createTime`, `updateTime`, `email`
 ) VALUES (
-	3       , "vip" ,"' . $user_pass_hash . '", "vip"     , "enable"    , NOW()       , NOW()       , ""
+	3       , "vip" ,"' . $user_pass_hash . '", "vip"     , "enable"    , NOW()       , NOW()       , "vip@led.cn"
 );
 ';
 
 
 $datasql = 'INSERT INTO LedStdEntity (
-	ArchId, StdNum           , StdLevel  , ChName                     , EnName                                                , 
+	ArchId, StdNum           , StdLevel  , Category, ChName                     ,
+	EnName                                                , 
 	ReleaseDate, ImpelementDate, StdStatus , AlterStandard, AdoptNo, 
 	AdoptName, AdoptLev, AdoptType, ICS        , CCS  , StandardType, 
 	ProductType, DepartCharge           , DepartResponse                       , AnnounceNum ,
 	CtnLink                                                                             , Abstract
 ) VALUES (
-	1     , "GB/T 31111-2014", "国家标准", "反射型自镇流LED灯规格分类", "Classification of self-ballasted LED reflector lamps",
+	1     , "GB/T 31111-2014", "国家标准", ""      , "反射型自镇流LED灯规格分类", 
+	"Classification of self-ballasted LED reflector lamps",
 	"2014/9/3" , "2015/8/1"    , "现行有效", ""           , ""     , ""       , ""      , "无"     , "29.140.99", "K71", "产品"      ,
 	"LED光源"  ,"中国轻工业联合会(607)", "全国照明电器标准化技术委员会(TC224)", "2014年第21号",
 	"http://c.gb688.cn/bzgk/gb/showGb?type=online&hcno=8D850753CED321658C986E67A10EEBBF", 

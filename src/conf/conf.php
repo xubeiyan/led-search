@@ -19,9 +19,11 @@ $config = Array (
 	),
 	// 站点设置
 	'site' => Array (
-		'template_folder' 	=> 'templates', 	// 模板位置
-		'login_validate'	=> false,
-		'record_per_page'	=> 50,				// 查询时每页数量
+		'session_display'		=> true,			// SESSION显示
+		'render_time_display'	=> true,			// 渲染时间显示
+		'template_folder' 		=> 'templates', 	// 模板位置
+		'login_validate'		=> false,
+		'record_per_page'		=> 50,				// 查询时每页数量
 	),
 );
 ?>

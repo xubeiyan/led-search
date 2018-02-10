@@ -1,0 +1,14 @@
+<div class="container">
+	<h1>用户管理</h1>
+	<hr>
+	<table>
+		<tr class="header"><td>用户名</td><td>身份</td><td>使用状态</td></tr>
+		%userTable%
+	</table>
+	<hr>
+	<div class="submit-area">
+		<button class="pagechange" onclick="topage(%prevPage%)" %prevdisable%>上一页</button>
+		<button id="submit"  class="submit">提交</button>
+		<button class="pagechange" onclick="topage(%nextPage%)" %nextdisable%>下一页</button>
+	</div>	
+</div>

@@ -51,3 +51,9 @@ var username = document.getElementById('username'),
 			return 'password empty';
 		}
 	}
+	
+password.addEventListener('keypress', function(e) {
+	if (e.code == 'Enter') {
+		submit();		
+	}
+})
