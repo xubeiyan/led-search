@@ -1,16 +1,67 @@
 var searchtype = document.getElementById('searchtype'),
 	searchsubtype = document.getElementById('searchsubtype'),
 	subtype = {
-		"product_type": ["LED芯片","LED器件", "LED光源", "LED灯具"],
-		"std_type": ["安全标准"],
-	}
+		"product_type": [{
+			'index': 'LEDclip',
+			'value': "LED芯片",
+		},{
+			'index': 'LEDdevice',
+			'value': "LED器件",
+		},{
+			'index': 'LEDlightsource',
+			'value': "LED光源",
+		},{
+			'index': 'LEDlamps',
+			'value': "LED灯具",
+		}],
+		"std_type": [{
+			'index': 'safestd',
+			'value': "安全标准",
+		},{
+			'index': 'methodstd',
+			'value': '方法标准',
+		},{
+			'index': 'productstd',
+			'value': '产品规范',
+		}],
+		"std_level": [{
+			'index': 'nationalstd',
+			'value': '国家标准',
+		},{
+			'index': 'internationalstd',
+			'value': '国际标准',
+		},{
+			'index': 'industrystd',
+			'value': '行业标准',
+		},{
+			'index': 'groupstd',
+			'value': '团体标准',
+		}],
+		"publish_year": [],
+		"std_status": [{
+			'index': 'published',
+			'value': '已发布',
+		},{
+			'index': 'dis',
+			'value': 'DIS',
+		}],
+	},
+	searchbutton = document.getElementById('searchbutton');
 	
 searchtype.addEventListener('change', function() {
-	var type = searchtype.value;
+	var type = searchtype.value,
+		subtypeHtml = '';
 	// console.log(subtype[type]);
 	if (subtype[type] == undefined) {
-		console.log('!');
+		searchsubtype.innerHTML = subtypeHtml;
 		return;
 	}
-	//searchsubtype.innerHTML = subtype
-})
+	for (var item of subtype[type]) {
+		subtypeHtml += '<option value="' + item.index + '">' + item.value + '</option>';
+	}
+	searchsubtype.innerHTML = subtypeHtml;
+});
+
+searchbutton.addEventListener('click', function () {
+	
+});
