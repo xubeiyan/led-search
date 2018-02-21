@@ -7,10 +7,11 @@ var search_button = document.getElementById('searchbutton'),
 	makeResultTable = function (resultArray) {
 		var resultHTML = '<table><tr class="header"><td>序号</td><td>标准编号</td><td>中文名称</td><td>英文名称</td></tr>';
 		for (var line of resultArray) {
-			resultHTML += '<tr><td>' + line['ArchId'] + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + '</td><td>' + line['EnName'] + '</td></tr>'; 
+			resultHTML += '<tr class="focus" onclick="window.location.href=\'?view&entityid=' + line['ArchId'] + '\'"><td>' + line['ArchId'] + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + 
+				'</td><td>' + line['EnName'] + '</td></tr>'; 
 		}
 		resultHTML += '</table>';
-		search_result.innerHTML = resultHTML;
+		return resultHTML;
 	}
 
 search_button.addEventListener('click', function () {
@@ -37,7 +38,7 @@ search_button.addEventListener('click', function () {
 			if (arrRes.found_result == 0) {
 				search_result.innerText = '什么都没找到';
 			} else {
-				makeResultTable(arrRes.results);
+				search_result.innerHTML = makeResultTable(arrRes.results);
 			}
 			
 		}

@@ -47,28 +47,39 @@ class Util {
 	public static function makeUserTable($result) {
 		$returnStr = '';
 		foreach ($result as $value) {
-			if ($value['userStatus'] == 'enable') {
-				$userStatus = '已启用';
-			} else if ($value['userStatus'] == 'disable') {
-				$userStatus = '已停用';
-			} else if ($value['userStatus'] == 'toauth') {
-				$userStatus = '待认证';
-			} else {
-				$userStatus = '未知状态';
-			}
-			
+			// 管理员权限不允许修改
 			if ($value['RoleId'] == 1) {
-				$roleId = '管理员';
-			} else if ($value['RoleId'] == 2) {
-				$roleId = '普通用户';
-			} else if ($value['RoleId'] == 3) {
-				$roleId = 'VIP用户';
+				$returnStr .= '<tr>';
+				$returnStr .= sprintf('<td>%s</td><td>%s</td><td>%s</td>', 
+				$value['username'], '管理员', '---');
+				$returnStr .= '</tr>';
+			} else {
+				$enable = $value['userStatus'] == 'enable' ? 'selectd' : '';
+				$disable = $value['userStatus'] == 'disable' ? 'selected' : '';
+				$toauth = $value['userStatus'] == 'toauth' ? 'selected' : '';
+				
+				$userStatus = sprintf('
+				<select id="status-%s" onchange="selectchange(this.id, this.value)">
+					<option value="enable" %s>已启用</option>
+					<option value="disable" %s>已停用</option>
+					<option value="toauth" %s>待认证</option>
+				</select>', $value['uid'], $enable, $disable, $toauth);
+				
+				$user = $value['RoleId'] == 2 ? 'selected' : '';
+				$vip = $value['RoleId'] == 3 ? 'selected' : '';
+				
+				$roleId = sprintf('
+				<select id="role-%s" onchange="selectchange(this.id, this.value)">
+					<option value="user" %s>一般用户</option>
+					<option value="vip" %s>高级用户</option>
+				</select>
+				', $value['uid'], $user, $vip);
+				
+				$returnStr .= '<tr>';
+				$returnStr .= sprintf('<td>%s</td><td>%s</td><td>%s</td>', 
+					$value['username'], $roleId, $userStatus);
+				$returnStr .= '</tr>';
 			}
-			
-			$returnStr .= '<tr>';
-			$returnStr .= sprintf('<td>%s</td><td>%s</td><td>%s</td>', 
-				$value['username'], $roleId, $userStatus);
-			$returnStr .= '</tr>';
 		}
 		return $returnStr;
 	}

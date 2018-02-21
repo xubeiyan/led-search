@@ -192,6 +192,14 @@
 		color: #F00;
 	}
 	
+	main div.container div.info {
+		line-height: 30px;
+		width: 700px;
+		margin-left: auto;
+		margin-right: auto;
+		color: #F00;
+	}
+	
 	main div.container div.success-info {
 		line-height: 30px;
 		width: 400px;
@@ -271,6 +279,11 @@
 		background-color: #CCC;
 	}
 	
+	main table tr.focus:hover {
+		background-color: #EEE;
+		cursor: pointer;
+	}
+	
 	main table td {
 		height: 40px;
 		border: 1px solid #DDD;
@@ -290,6 +303,12 @@
 		border-radius: 5px;
 		border: 0;
 		cursor: pointer;
+	}
+	
+	main table select {
+		line-height: 26px;
+		height: 30px;
+		border: 1px solid #CCC;
 	}
 	
 	/* footer */

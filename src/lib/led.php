@@ -301,6 +301,28 @@ class LED {
 			$returnArray = Util::searchResult($result);
 			echo json_encode($returnArray, JSON_UNESCAPED_UNICODE);
 			exit();
+		// 高级查询
+		} else if ($decode_req['request'] == 'advancesearch') {
+			$searchArray = Array();
+			$searchArray['keyword'] = isset($decode_req['keyword']) ? '%' . $decode_req['keyword'] . '%' : '%';
+			$searchArray['search_type'] = isset($decode_req['search_type']) ? $decode_req['search_type'] : 'standard_type';
+			
+			if (!($searchArray['search_type'] == 'std_num' || $searchArray['search_type'] == 'std_name')) {
+				$searchArray['search_type'] = 'std_num';
+			}
+			
+			if (isset($decode_req['page'])) {
+				$page = $decode_req['page'] == '' ? 0 : $decode_req['page'];
+			} else {
+				$page = 0;
+			}
+			
+			global $config;
+			
+			$pageArray = Array(
+				'from' 		=> $page * $config['site']['record_per_page'],
+				'perPage' 	=> $config['site']['record_per_page'],
+			);
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {
 			// 未提供旧密码
@@ -336,8 +358,9 @@ class LED {
 			}
 			
 			Error::errMsg('unexpect_end_error');
-		// 修改用户列表中的信息
+		// 修改用户列表中的信息（管理员操作）
 		} else if ($decode_req['request'] == 'updateUserTable') {
+			// 验证身份是否为管理员
 			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
 				Error::errMsg('not_admin_error');
 			}
@@ -347,6 +370,7 @@ class LED {
 			}
 			
 			DB::userTable($decode_req['update'], 'set');
+			Error::succMsg('update_success');
 		}
 		exit();
 	}

@@ -1,5 +1,6 @@
 var searchtype = document.getElementById('searchtype'),
 	searchsubtype = document.getElementById('searchsubtype'),
+	searchvalue = document.getElementById('searchvalue'),
 	subtype = {
 		"product_type": [{
 			'index': 'LEDclip',
@@ -63,5 +64,29 @@ searchtype.addEventListener('change', function() {
 });
 
 searchbutton.addEventListener('click', function () {
-	
+	error_info.innerText = '';
+
+	var xmlRequest = new XMLHttpRequest(),
+		body = {
+			'request': 'advancesearch',
+			'search_type': searchtype.value,
+			'search_subtype': searchsubtype.value,
+			'keyword': searchvalue.value,
+			'page': 0,
+		};
+		xmlRequest.open('POST', '.');
+		xmlRequest.setRequestHeader("Content-Type", "application/json");
+		xmlRequest.send(JSON.stringify(body));
+		
+	xmlRequest.onreadystatechange = function () {
+		if (xmlRequest.readyState == 4 && xmlRequest.status == 200) {
+			var arrRes = JSON.parse(xmlRequest.response);
+			if (arrRes.found_result == 0) {
+				search_result.innerText = '什么都没找到';
+			} else {
+				search_result.innerHTML = makeResultTable(arrRes.results);
+			}
+			
+		}
+	}
 });

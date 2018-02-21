@@ -157,6 +157,13 @@ class DB {
 	
 	/**
 	* 查询/更新用户列表
+	* 查询提供参数:
+	* page
+	* perpage
+	* 更新提供参数：（目前支持修改使用情况和修改用户身份至VIP或普通用户）
+	* id
+	* role或者status
+	* value
 	*/
 	public static function userTable($infoArray, $operation) {
 		$conn = self::connect();
@@ -167,6 +174,7 @@ class DB {
 			$perPage = $infoArray['perPage'];
 			$from = $page * $perPage;
 			
+			// +1是为了判断后一页还有记录没有
 			$sql = sprintf('SELECT * FROM `leduser` LIMIT %d OFFSET %d', $perPage + 1, $from);
 			
 			$result = mysqli_query($conn, $sql);
@@ -179,10 +187,24 @@ class DB {
 			
 			return $returnArray;
 		} else if ($operation == 'set') {
+			// TODO: 并未验证是否修改的是否管理员
 			foreach ($infoArray as $value) {
-				$id = $value['id'];
+				$id = explode('-', $value['id'])[1];
+				$type = explode('-', $value['id'])[0];
+				$val = $value['value'];
 				
+				if ($type == 'status') {
+					$sql = sprintf('UPDATE `leduser` SET `userStatus` = "%s" WHERE `uid` = %d', $val, $id);					
+				} else if ($type == 'role') {
+					$roleId = $val == 'vip' ? 3 : 2;
+					$sql = sprintf('UPDATE `leduser` SET `RoleId` = %d WHERE `uid` = %d', $roleId, $id);					
+				}
+				
+				if (!mysqli_query($conn, $sql)) {
+					die(mysqli_error($conn));
+				}
 			}
+			return 'success';
 		}
 	}
 }

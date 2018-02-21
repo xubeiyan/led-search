@@ -53,7 +53,8 @@ var username = document.getElementById('username'),
 	}
 	
 password.addEventListener('keypress', function(e) {
-	if (e.code == 'Enter') {
+	// console.log(e);
+	if (e.key == 'Enter') {
 		submit();		
 	}
 })
