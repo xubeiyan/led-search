@@ -11,11 +11,6 @@ var nickname = document.getElementById('nickname'),
 			return;
 		}
 		
-		if (newpass.value == '') {
-			errorInfo.innerText = '新密码不能为空';
-			return;
-		}
-		
 		if (newpass.value != confirm.value) {
 			errorInfo.innerText = '两次密码不一致';
 			return;

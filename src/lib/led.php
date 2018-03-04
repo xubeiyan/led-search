@@ -384,10 +384,17 @@ class LED {
 				Error::errMsg('oldpass_incorrect_error');
 			}
 			
+			// 如果没有填写新密码则不更新新密码
+			if ($decode_req['newpass'] == '') {
+				$newpass = $decode_req['oldpass'];
+			} else {
+				$newpass = $decode_req['newpass'];
+			}
+			
 			$userInfo = Array (
 				'username' => $_SESSION['user']['username'],
 				'nickname' => isset($decode_req['nickname']) ? $decode_req['nickname'] : '',
-				'newpass' => $decode_req['newpass'],
+				'newpass' => $newpass,
 				'email' => isset($decode_req['email']) ? $decode_req['email'] : "",
 			);
 			
