@@ -207,5 +207,23 @@ class DB {
 			return 'success';
 		}
 	}
+	
+	/**
+	* 更新Entity某条记录
+	*/
+	public static function updateStd($info) {
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		
+		$sql = sprintf('UPDATE `ledstdentity` SET 
+			`StdNum` = "%s"
+			WHERE `EntityId` = %d', $info['stdnum'], $info['entityid']);
+			
+		if (!mysqli_query($conn, $sql)) {
+			die(mysqli_error($conn));
+		}
+		
+		return 'success';
+	}
 }
 ?>

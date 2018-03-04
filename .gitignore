@@ -1,3 +1,7 @@
+doc/*.xlsx
+doc/*.xls
+doc/*.pptx
+doc/*.ppt
 doc/*.doc
 doc/*.docx
 doc/*.vsd

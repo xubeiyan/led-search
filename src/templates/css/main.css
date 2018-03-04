@@ -296,6 +296,16 @@
 		color: #386c90;
 	}
 	
+	/* td input&textarea */
+	main table td input {
+		width: 100%;
+	}
+	
+	main table td textarea {
+		width: 100%;
+		height: 100px;
+	}
+	
 	main table td button {
 		background-color: #386c90;
 		color: #FFF;

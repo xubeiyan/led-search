@@ -107,8 +107,9 @@ class LED {
 			$user_templates = array_merge($user_templates, $userInfo);
 			
 			self::render('user', $user_templates);
-		// 管理页面
+		// 用户管理页面
 		} else if (isset($_GET['manage'])) {
+			// 身份检查
 			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
 				$info_templates = Array(
 					'title' => '出错了',
@@ -144,6 +145,35 @@ class LED {
 			);
 			
 			self::render('manage', $manage_templates);
+		// 数据库修改页面
+		} else if (isset($_GET['edit'])) {
+			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '当前用户并不是管理员',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
+			$id = isset($_GET['entityid']) && is_numeric($_GET['entityid']) ? $_GET['entityid'] : 0;
+			
+			global $config;
+			$info = Array(
+				'entityid' => $id
+			);
+			
+			$result = DB::viewStd($info);
+			
+			$entityTable = Util::makeEntityTable($result);
+			
+			$edit_templates = Array (
+				'entityTable' => $entityTable,
+				'script' => 'templates/js/edit.js',
+			);
+			
+			self::render('edit', $edit_templates);
+			
 		// 浏览页面
 		} else if (isset($_GET['view'])) {
 			if (!isset($_GET['entityid'])) {
@@ -158,7 +188,7 @@ class LED {
 			$entityid = is_numeric($_GET['entityid']) ? $_GET['entityid'] : 0;
 			
 			$searchArray = Array(
-				'entityid' => $entityid
+				'entityid' => $entityid,
 			);
 			
 			$resultArray = DB::viewStd($searchArray);
@@ -176,9 +206,16 @@ class LED {
 				'title' => '标准LED查询系统 - 浏览',
 			);
 			
+			// 管理员增加一个修改按钮
+			if ($_SESSION['user']['roleId'] == 1) {
+				$view_templates['modify'] = '<button onclick="window.location.href=\'?edit&entityid=' . $entityid . '\'">修改</button>';
+			} else {
+				$view_templates['modify'] = '';
+			}
+			
 			$view_templates = array_merge($view_templates, $resultArray);
 			
-			// print_r($resultArray);
+			// print_r($view_templates);
 			// exit();
 			
 			self::render('view', $view_templates);
@@ -321,6 +358,9 @@ class LED {
 				'from' 		=> $page * $config['site']['record_per_page'],
 				'perPage' 	=> $config['site']['record_per_page'],
 			);
+			
+			echo json_encode(Array('found_result' => 0), JSON_UNESCAPED_UNICODE);
+			exit();
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {
 			// 未提供旧密码
@@ -356,6 +396,15 @@ class LED {
 			}
 			
 			Error::errMsg('unexpect_end_error');
+		// 更新Entity信息(管理员操作)
+		} else if ($decode_req['request'] == 'edit') {
+			// 验证身份是否为管理员
+			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
+				Error::errMsg('not_admin_error');
+			}
+			
+			DB::updateStd($decode_req);
+			Error::succMsg('update_success');
 		// 修改用户列表中的信息（管理员操作）
 		} else if ($decode_req['request'] == 'updateUserTable') {
 			// 验证身份是否为管理员

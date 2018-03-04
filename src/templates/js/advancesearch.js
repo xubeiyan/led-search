@@ -47,6 +47,8 @@ var searchtype = document.getElementById('searchtype'),
 			'value': 'DIS',
 		}],
 	},
+	error_info = document.getElementById('errorInfo'),
+	search_result = document.getElementById('searchresult'),
 	searchbutton = document.getElementById('searchbutton');
 	
 searchtype.addEventListener('change', function() {
@@ -74,9 +76,10 @@ searchbutton.addEventListener('click', function () {
 			'keyword': searchvalue.value,
 			'page': 0,
 		};
-		xmlRequest.open('POST', '.');
-		xmlRequest.setRequestHeader("Content-Type", "application/json");
-		xmlRequest.send(JSON.stringify(body));
+		
+	xmlRequest.open('POST', '.');
+	xmlRequest.setRequestHeader("Content-Type", "application/json");
+	xmlRequest.send(JSON.stringify(body));
 		
 	xmlRequest.onreadystatechange = function () {
 		if (xmlRequest.readyState == 4 && xmlRequest.status == 200) {
