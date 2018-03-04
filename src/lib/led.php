@@ -54,11 +54,9 @@ class LED {
 				'script' => 'templates/js/login.js',
 			);
 			self::render('login', $login_templates);
-		// } else if (isset($_GET['install'])) {
-			// $install_templates = Array(
-				// 'header_title' => '安装',
-			// );
-			// self::render('install', $install_templates);
+		// 安装
+		} else if (isset($_GET['install'])) {
+			self::install_status();
 		// 登出
 		} else if (isset($_GET['logout'])) {
 			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == false) {
@@ -417,6 +415,7 @@ class LED {
 			'css_file' 		=> 'templates/css/main.css',
 			'script' 		=> 'templates/js/index.js',
 			'date'			=> date('Y年m月d日'),
+			'time'			=> date('e H:i'),
 		);
 		
 		if (isset($_SESSION['user']['status']) && $_SESSION['user']['status'] == true) {
