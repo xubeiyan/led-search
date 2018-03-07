@@ -96,4 +96,16 @@ create table LedStdArch
 );
 
 /*alter table LedStdArch comment 'Led标准体系表，生成标准框架展示模块';*/
+
+/*==============================================================*/
+/* Table: LedStdStatistic                                       */
+/*==============================================================*/
+create table LedStdStatistic
+(
+   id	                int not null auto_increment,
+   Type					varchar(255) comment '分类文字',
+   NationalNum			int comment '国内标准数量',
+   InternationalNum		int comment '国外标准数量',
+   primary key (id)
+);
 ```
