@@ -37,4 +37,106 @@ INSERT INTO LedStdEntity (
     本标准主要技术要求包括：标志、互换性、意外接触带电部件的防护、潮湿处理后的绝缘电阻和介电强度、机械强度、灯头温升、耐热性、防火与防燃、故障状态。"
 );';
 
+$sql = 'INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"通用标准", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"材料", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"材料通用标准", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"衬底材料", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"发光材料", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"芯片和器件", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"外延片", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"芯片", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"器件", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"照明设备和系统", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"LED模块", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"LED光源", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"灯用附件", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"灯头灯座", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"灯具", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"照明系统", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"其他", 0, 0
+	);'
+
 ?>

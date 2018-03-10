@@ -115,6 +115,245 @@ class Util {
 		return $returnStr;
 		
 	}
+	
+	/**
+	* 统计列表标准
+	*/
+	public static function initStatisticTable() {
+		$statisticTable = Array(
+			'general_standard' => Array ( // 通用标准
+				'na' => 0,
+				'in' => 0,
+			),
+			'material' => Array ( // 材料
+				'na' => 0,
+				'in' => 0,
+				'general_standard' => Array( // 材料通用标准
+					'na' => 0,
+					'in' => 0,
+				),
+				'substrate' => Array( // 衬底材料
+					'na' => 0,
+					'in' => 0,
+				),
+				'light' => Array( // 发光材料
+					'na' => 0,
+					'in' => 0,
+				),
+			),
+			'chip_and_device' => Array ( // 芯片和器件
+				'na' => 0,
+				'in' => 0,
+				'wafer' => Array ( // 外延片
+					'na' => 0,
+					'in' => 0,
+				),
+				'chip' => Array ( // 芯片
+					'na' => 0,
+					'in' => 0,
+				),
+				'device' => Array ( // 器件
+					'na' => 0,
+					'in' => 0,
+				),
+			),
+			'light_device_and_system' => Array ( // 照明设备和系统
+				'na' => 0,
+				'in' => 0,
+				'led_module' => Array ( // LED模块
+					'na' => 0,
+					'in' => 0,
+				),
+				'led_light_source' => Array ( // LED光源
+					'na' => 0,
+					'in' => 0,
+				),
+				'lamp_annex' => Array ( // 灯用附件
+					'na' => 0,
+					'in' => 0,
+				),
+				'lamp_holder_and_socket' => Array ( //灯头灯座
+					'na' => 0,
+					'in' => 0,
+				),
+				'lamps' => Array ( // 灯具
+					'na' => 0,
+					'in' => 0,
+				),
+				'light_system' => Array ( // 照明系统
+					'na' => 0,
+					'in' => 0,
+				),
+			),
+			'others' => Array ( // 其他
+				'na' => 0,
+				'in' => 0,
+			),
+		);
+		
+		return $statisticTable;
+	}
+	
+	public static function makeStatisticArr($table, $productType, $na, $in) {
+		if ($productType == '通用标准') {
+			$table['general_standard']['na'] = $na;
+			$table['general_standard']['in'] = $in;
+		// 材料部分
+		} else if ($productType == '材料') {
+			$table['material']['na'] = $na;
+			$table['material']['in'] = $in;
+		} else if ($productType == '材料通用标准') {
+			$table['material']['general_standard']['na'] = $na;
+			$table['material']['general_standard']['in'] = $in;
+		} else if ($productType == '衬底材料') {
+			$table['material']['substrate']['na'] = $na;
+			$table['material']['substrate']['in'] = $in;
+		} else if ($productType == '发光材料') {
+			$table['material']['light']['na'] = $na;
+			$table['material']['light']['in'] = $in;
+		// 芯片和器件
+		} else if ($productType == '芯片和器件') {
+			$table['chip_and_device']['na'] = $na;
+			$table['chip_and_device']['in'] = $in;
+		} else if ($productType == '外延片') {
+			$table['chip_and_device']['wafer']['na'] = $na;
+			$table['chip_and_device']['wafer']['in'] = $in;
+		} else if ($productType == '芯片') {
+			$table['chip_and_device']['chip']['na'] = $na;
+			$table['chip_and_device']['chip']['in'] = $in;
+		} else if ($productType == '器件') {
+			$table['chip_and_device']['device']['na'] = $na;
+			$table['chip_and_device']['device']['in'] = $in;
+		// 照明设备和系统
+		} else if ($productType == '照明设备和系统') {
+			$table['light_device_and_system']['na'] = $na;
+			$table['light_device_and_system']['in'] = $in;
+		} else if ($productType == 'LED模块') {
+			$table['light_device_and_system']['led_module']['na'] = $na;
+			$table['light_device_and_system']['led_module']['in'] = $in;
+		} else if ($productType == 'LED光源') {
+			$table['light_device_and_system']['led_light_source']['na'] = $na;
+			$table['light_device_and_system']['led_light_source']['in'] = $in;
+		} else if ($productType == '灯用附件') {
+			$table['light_device_and_system']['lamp_annex']['na'] = $na;
+			$table['light_device_and_system']['lamp_annex']['in'] = $in;
+		} else if ($productType == '灯头灯座') {
+			$table['light_device_and_system']['lamp_holder_and_socket']['na'] = $na;
+			$table['light_device_and_system']['lamp_holder_and_socket']['in'] = $in;
+		} else if ($productType == '灯具') {
+			$table['light_device_and_system']['lamps']['na'] = $na;
+			$table['light_device_and_system']['lamps']['in'] = $in;
+		} else if ($productType == '照明系统') {
+			$table['light_device_and_system']['light_system']['na'] = $na;
+			$table['light_device_and_system']['light_system']['in'] = $in;
+		// 其他
+		} else if ($productType == '其他') {
+			$table['others']['na'] = $na;
+			$table['others']['in'] = $in;
+		}
+		
+		return $table;
+	}
+	
+	public static function getStatisticInfo($table, $stdLevel, $productType) {
+		
+	}
+	
+	public static function makeStatisticTable($table) {
+		$returnTable = '<tr><td rowspan="14" style="width: 20%">半导体照明综合标准化技术体系</td>';
+		$returnTable .= '<td colspan="2">通用标准</td><td>' . $table['general_standard']['na'] . '</td><td>' . 
+			$table['general_standard']['in'] . '</td><td>' . 
+			($table['general_standard']['na'] + $table['general_standard']['in']) . '</td></tr>';
+			
+		$na = $table['material']['na'];
+		$in = $table['material']['in'];
+		$returnTable .= '<td rowspan="3">材料</td><td>材料通用标准</td><td>' . 
+			($na + $table['material']['general_standard']['na']) . '</td><td>' . 
+			($in + $table['material']['general_standard']['in']) . '</td><td>' .
+			($na + $table['material']['general_standard']['na'] + $in + $table['material']['general_standard']['in']) . '</td></tr>';
+		
+		$returnTable .= '<td>衬底材料</td><td>' . 
+			($na + $table['material']['substrate']['na']) . '</td><td>' . 
+			($in + $table['material']['substrate']['in']) . '</td><td>' .
+			($na + $table['material']['substrate']['na'] + $in + $table['material']['substrate']['in']) . '</td></tr>';
+		$returnTable .= '<td>发光材料</td><td>' . 
+			($na + $table['material']['light']['na']) . '</td><td>' . 
+			($in + $table['material']['light']['in']) . '</td><td>' .
+			($na + $table['material']['light']['na'] + $in + $table['material']['light']['in']) . '</td></tr>';
+
+		$na = $table['chip_and_device']['na'];
+		$in = $table['chip_and_device']['in'];
+		$returnTable .= '<td rowspan="3">芯片和器件</td><td>外延片</td><td>' . 
+			($na + $table['chip_and_device']['wafer']['na']) . '</td><td>' . 
+			($in + $table['chip_and_device']['wafer']['in']) . '</td><td>' .
+			($na + $table['chip_and_device']['wafer']['na'] + $in + $table['chip_and_device']['wafer']['in']) . '</td></tr>';
+		$returnTable .= '<td>芯片</td><td>' . 
+			($na + $table['chip_and_device']['chip']['na']) . '</td><td>' . 
+			($in + $table['chip_and_device']['chip']['in']) . '</td><td>' .
+			($na + $table['chip_and_device']['chip']['na'] + $in + $table['chip_and_device']['chip']['in']) . '</td></tr>';
+		$returnTable .= '<td>器件</td><td>' . 
+			($na + $table['chip_and_device']['device']['na']) . '</td><td>' . 
+			($in + $table['chip_and_device']['device']['in']) . '</td><td>' .
+			($na + $table['chip_and_device']['device']['na'] + $in + $table['chip_and_device']['device']['in']) . '</td></tr>';
+	
+		$na = $table['light_device_and_system']['na'];
+		$in = $table['light_device_and_system']['in'];
+		$returnTable .= '<td rowspan="6">照明设备和系统</td><td>LED模块</td><td>' . 
+			($na + $table['light_device_and_system']['led_module']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['led_module']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['led_module']['na'] + $in + $table['light_device_and_system']['led_module']['in']) . '</td></tr>';
+		$returnTable .= '<td>LED光源</td><td>' . 
+			($na + $table['light_device_and_system']['led_light_source']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['led_light_source']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['led_light_source']['na'] + $in + $table['light_device_and_system']['led_light_source']['in']) . '</td></tr>';
+		$returnTable .= '<td>灯用附件</td><td>' . 
+			($na + $table['light_device_and_system']['lamp_annex']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['lamp_annex']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['lamp_annex']['na'] + $in + $table['light_device_and_system']['lamp_annex']['in']) . '</td></tr>';
+		$returnTable .= '<td>灯头灯座</td><td>' . 
+			($na + $table['light_device_and_system']['lamp_holder_and_socket']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['lamp_holder_and_socket']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['lamp_holder_and_socket']['na'] + $in + $table['light_device_and_system']['lamp_holder_and_socket']['in']) . '</td></tr>';
+		$returnTable .= '<td>灯具</td><td>' . 
+			($na + $table['light_device_and_system']['lamps']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['lamps']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['lamps']['na'] + $in + $table['light_device_and_system']['lamps']['in']) . '</td></tr>';
+		$returnTable .= '<td>照明系统</td><td>' . 
+			($na + $table['light_device_and_system']['light_system']['na']) . '</td><td>' . 
+			($in + $table['light_device_and_system']['light_system']['in']) . '</td><td>' .
+			($na + $table['light_device_and_system']['light_system']['na'] + $in + $table['light_device_and_system']['light_system']['in']) . '</td></tr>';
+	
+		$returnTable .= '<td colspan="2">其他</td><td>' . 
+			$table['others']['na'] . '</td><td>' . 
+			$table['others']['in'] . '</td><td>' .
+			($table['others']['na'] + $table['others']['in']) . '</td></tr>';
+			
+		$total_na = $table['general_standard']['na'] + $table['material']['na'] 
+			+ $table['material']['general_standard']['na'] + $table['material']['substrate']['na']
+			+ $table['material']['light']['na'] + $table['chip_and_device']['na']
+			+ $table['chip_and_device']['wafer']['na'] + $table['chip_and_device']['chip']['na']
+			+ $table['chip_and_device']['device']['na'] + $table['light_device_and_system']['na']
+			+ $table['light_device_and_system']['led_module']['na'] + $table['light_device_and_system']['led_light_source']['na']
+			+ $table['light_device_and_system']['lamp_annex']['na'] + $table['light_device_and_system']['lamp_holder_and_socket']['na']
+			+ $table['light_device_and_system']['lamps']['na'] + $table['light_device_and_system']['light_system']['na']
+			+ $table['others']['na'];
+		$total_in = $table['general_standard']['in'] + $table['material']['in'] 
+			+ $table['material']['general_standard']['in'] + $table['material']['substrate']['in']
+			+ $table['material']['light']['in'] + $table['chip_and_device']['in']
+			+ $table['chip_and_device']['wafer']['in'] + $table['chip_and_device']['chip']['in']
+			+ $table['chip_and_device']['device']['in'] + $table['light_device_and_system']['in']
+			+ $table['light_device_and_system']['led_module']['in'] + $table['light_device_and_system']['led_light_source']['in']
+			+ $table['light_device_and_system']['lamp_annex']['in'] + $table['light_device_and_system']['lamp_holder_and_socket']['in']
+			+ $table['light_device_and_system']['lamps']['in'] + $table['light_device_and_system']['light_system']['in']
+			+ $table['others']['in'];;
+		
+		$returnTable .= '<td colspan="3">总计</td><td>' . 
+			$total_na . '</td><td>' . 
+			$total_in . '</td><td>' .
+			($total_na + $total_in) . '</td></tr>';
+			
+		return $returnTable;
+	}
 }
 
 ?>

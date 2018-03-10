@@ -225,6 +225,14 @@ class LED {
 				'title' => '标准LED查询系统 - 标准体系统计',
 			);
 			
+			$statistic = DB::statistics('get');
+			
+			$statistics_table_templates = Array(
+				'statisticTable' => Util::makeStatisticTable($statistic),
+			);
+			
+			$statistics_templates = array_merge($statistics_templates, $statistics_table_templates);
+			
 			self::render('statistics', $statistics_templates);
 		// 标准查询
 		} else if (isset($_GET['stdsearch'])) {

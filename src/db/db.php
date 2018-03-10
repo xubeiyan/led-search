@@ -225,5 +225,40 @@ class DB {
 		
 		return 'success';
 	}
+	
+	/**
+	* 获取统计信息
+	*/
+	public static function statistics($operation = 'get') {
+		if ($operation == 'get') {
+			$conn = self::connect();
+			mysqli_set_charset($conn, 'utf8');
+			
+			$sql = sprintf('SELECT `Type`, `NationalNum`, `InternationalNum` FROM `LedStdStatistic`');
+			
+			$result = mysqli_query($conn, $sql);
+			
+			$statistic_result = Util::initStatisticTable();
+			while ($row = mysqli_fetch_assoc($result)) {
+				$statistic_result = Util::makeStatisticArr($statistic_result, $row['Type'], $row['NationalNum'], $row['InternationalNum']);
+			}
+			
+			return $statistic_result;
+		} else if ($operation == 'set') {
+			$conn = self::connect();
+			mysqli_set_charset($conn, 'utf8');
+			
+			$getStatisticSql = sprintf('SELECT `StdLevel`, `StandardType` FROM `LedStdEntity`');
+
+			$result = mysqli_query($conn, $getStatisticSql);
+			
+			while ($row = mysqli_fetch_assoc()) {
+				// $sql = 'UPDATE '
+			}
+			
+			return $statistic_result;
+		}
+		
+	}
 }
 ?>
