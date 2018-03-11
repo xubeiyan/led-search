@@ -229,36 +229,50 @@ class DB {
 	/**
 	* 获取统计信息
 	*/
-	public static function statistics($operation = 'get') {
-		if ($operation == 'get') {
-			$conn = self::connect();
-			mysqli_set_charset($conn, 'utf8');
-			
-			$sql = sprintf('SELECT `Type`, `NationalNum`, `InternationalNum` FROM `LedStdStatistic`');
-			
-			$result = mysqli_query($conn, $sql);
-			
-			$statistic_result = Util::initStatisticTable();
-			while ($row = mysqli_fetch_assoc($result)) {
-				$statistic_result = Util::makeStatisticArr($statistic_result, $row['Type'], $row['NationalNum'], $row['InternationalNum']);
-			}
-			
-			return $statistic_result;
-		} else if ($operation == 'set') {
-			$conn = self::connect();
-			mysqli_set_charset($conn, 'utf8');
-			
-			$getStatisticSql = sprintf('SELECT `StdLevel`, `StandardType` FROM `LedStdEntity`');
-
-			$result = mysqli_query($conn, $getStatisticSql);
-			
-			while ($row = mysqli_fetch_assoc()) {
-				// $sql = 'UPDATE '
-			}
-			
-			return $statistic_result;
+	public static function statistics() {
+		
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		
+		$sql = sprintf('SELECT `Type`, `NationalNum`, `InternationalNum` FROM `LedStdStatistic`');
+		
+		$result = mysqli_query($conn, $sql);
+		
+		$statistic_result = Util::initStatisticTable();
+		while ($row = mysqli_fetch_assoc($result)) {
+			$statistic_result = Util::makeStatisticArr($statistic_result, $row['Type'], $row['NationalNum'], $row['InternationalNum']);
 		}
 		
+		return $statistic_result;
+
+	}
+	
+	/**
+	* 更新统计信息
+	*/
+	public static function updateStatistics() {
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		
+		$getStatisticSql = sprintf('SELECT `StdLevel`, `ProductType` FROM `LedStdEntity`');
+
+		$result = mysqli_query($conn, $getStatisticSql);
+		
+		while ($row = mysqli_fetch_assoc($result)) {
+			if ($row['StdLevel'] == '国外标准' || $row['StdLevel'] == '国际标准') {
+				$sql = sprintf('UPDATE `LedStdStatistic` SET `InternationalNum` = `InternationalNum` + 1 WHERE `Type` = "%s"', $row['ProductType']);				
+			} else {
+				$sql = sprintf('UPDATE `LedStdStatistic` SET `NationalNum` = `NationalNum` + 1 WHERE `Type` = "%s"', $row['ProductType']);
+			}
+			
+			if (!mysqli_query($conn, $sql)) {
+				die(mysqli_error($conn));
+			}
+			
+			print_r($sql . '<br />');
+		}
+		
+		return 'ok';
 	}
 }
 ?>

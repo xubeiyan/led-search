@@ -225,7 +225,7 @@ class LED {
 				'title' => '标准LED查询系统 - 标准体系统计',
 			);
 			
-			$statistic = DB::statistics('get');
+			$statistic = DB::statistics();
 			
 			$statistics_table_templates = Array(
 				'statisticTable' => Util::makeStatisticTable($statistic),
@@ -253,6 +253,10 @@ class LED {
 		// 用于清除SESSION
 		} else if (isset($_GET['session_clear'])) {
 			$_SESSION = Array();
+		// 手动更新Statistic
+		} else if (isset($_GET['update_statistics'])) {
+			DB::updateStatistics();
+			exit();
 		}
 	}
 	

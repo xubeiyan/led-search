@@ -118,6 +118,24 @@ $sql = 'INSERT INTO `LedStdStatistic` (
 	INSERT INTO `LedStdStatistic` (
 		`Type`, `NationalNum`, `InternationalNum`
 	) VALUES (
+		"专用集成电路", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"驱动控制装置", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"照明接口", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
 		"灯头灯座", 0, 0
 	);
 	
@@ -136,7 +154,25 @@ $sql = 'INSERT INTO `LedStdStatistic` (
 	INSERT INTO `LedStdStatistic` (
 		`Type`, `NationalNum`, `InternationalNum`
 	) VALUES (
+		"智能控制系统", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"传感器系统", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
+		"其他连接系统", 0, 0
+	);
+	
+	INSERT INTO `LedStdStatistic` (
+		`Type`, `NationalNum`, `InternationalNum`
+	) VALUES (
 		"其他", 0, 0
-	);'
+	);';
 
 ?>

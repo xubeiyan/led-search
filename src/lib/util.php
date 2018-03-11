@@ -171,6 +171,18 @@ class Util {
 				'lamp_annex' => Array ( // 灯用附件
 					'na' => 0,
 					'in' => 0,
+					'dedicated_integrated_circuit' => Array( // 专用集成电路
+						'na' => 0,
+						'in' => 0,
+					),
+					'drive_control_system' => Array( // 驱动控制装置
+						'na' => 0,
+						'in' => 0,
+					),
+					'light_interface' => Array( // 照明接口
+						'na' => 0,
+						'in' => 0,
+					),
 				),
 				'lamp_holder_and_socket' => Array ( //灯头灯座
 					'na' => 0,
@@ -183,6 +195,18 @@ class Util {
 				'light_system' => Array ( // 照明系统
 					'na' => 0,
 					'in' => 0,
+					'intelligent_control_system' => Array( // 智能控制系统
+						'na' => 0,
+						'in' => 0,
+					),
+					'sensor_system' => Array( // 传感器系统
+						'na' => 0,
+						'in' => 0,
+					),
+					'other_connection_system' => Array( // 其他连接系统
+						'na' => 0,
+						'in' => 0,
+					),
 				),
 			),
 			'others' => Array ( // 其他
@@ -234,6 +258,12 @@ class Util {
 		} else if ($productType == 'LED光源') {
 			$table['light_device_and_system']['led_light_source']['na'] = $na;
 			$table['light_device_and_system']['led_light_source']['in'] = $in;
+		} else if ($productType == '灯用附件') {
+			$table['light_device_and_system']['lamp_annex']['na'] = $na;
+			$table['light_device_and_system']['lamp_annex']['in'] = $in;
+		} else if ($productType == '专用集成电路') {
+			$table['light_device_and_system']['lamp_annex']['na'] = $na;
+			$table['light_device_and_system']['lamp_annex']['in'] = $in;
 		} else if ($productType == '灯用附件') {
 			$table['light_device_and_system']['lamp_annex']['na'] = $na;
 			$table['light_device_and_system']['lamp_annex']['in'] = $in;
@@ -306,10 +336,16 @@ class Util {
 			($na + $table['light_device_and_system']['led_light_source']['na']) . '</td><td>' . 
 			($in + $table['light_device_and_system']['led_light_source']['in']) . '</td><td>' .
 			($na + $table['light_device_and_system']['led_light_source']['na'] + $in + $table['light_device_and_system']['led_light_source']['in']) . '</td></tr>';
-		$returnTable .= '<td>灯用附件</td><td>' . 
-			($na + $table['light_device_and_system']['lamp_annex']['na']) . '</td><td>' . 
-			($in + $table['light_device_and_system']['lamp_annex']['in']) . '</td><td>' .
-			($na + $table['light_device_and_system']['lamp_annex']['na'] + $in + $table['light_device_and_system']['lamp_annex']['in']) . '</td></tr>';
+		
+		$this_na = $na + $table['light_device_and_system']['lamp_annex']['na'] + 
+			$table['light_device_and_system']['lamp_annex']['dedicated_integrated_circuit']['na'] +
+			$table['light_device_and_system']['lamp_annex']['drive_control_system']['na'] + 
+			$table['light_device_and_system']['lamp_annex']['light_interface']['na'];
+		$this_in = $in + $table['light_device_and_system']['lamp_annex']['na'] + 
+			$table['light_device_and_system']['lamp_annex']['dedicated_integrated_circuit']['in'] +
+			$table['light_device_and_system']['lamp_annex']['drive_control_system']['in'] + 
+			$table['light_device_and_system']['lamp_annex']['light_interface']['in'];
+		$returnTable .= '<td>灯用附件</td><td>' . $this_na . '</td><td>' . $this_in . '</td><td>' . ($this_na + $this_in) . '</td></tr>';
 		$returnTable .= '<td>灯头灯座</td><td>' . 
 			($na + $table['light_device_and_system']['lamp_holder_and_socket']['na']) . '</td><td>' . 
 			($in + $table['light_device_and_system']['lamp_holder_and_socket']['in']) . '</td><td>' .
@@ -318,10 +354,15 @@ class Util {
 			($na + $table['light_device_and_system']['lamps']['na']) . '</td><td>' . 
 			($in + $table['light_device_and_system']['lamps']['in']) . '</td><td>' .
 			($na + $table['light_device_and_system']['lamps']['na'] + $in + $table['light_device_and_system']['lamps']['in']) . '</td></tr>';
-		$returnTable .= '<td>照明系统</td><td>' . 
-			($na + $table['light_device_and_system']['light_system']['na']) . '</td><td>' . 
-			($in + $table['light_device_and_system']['light_system']['in']) . '</td><td>' .
-			($na + $table['light_device_and_system']['light_system']['na'] + $in + $table['light_device_and_system']['light_system']['in']) . '</td></tr>';
+		$this_na = $na + $table['light_device_and_system']['light_system']['na'] + 
+			$table['light_device_and_system']['light_system']['intelligent_control_system']['na'] +
+			$table['light_device_and_system']['light_system']['sensor_system']['na'] + 
+			$table['light_device_and_system']['light_system']['other_connection_system']['na'];
+		$this_in = $in + $table['light_device_and_system']['light_system']['in'] + 
+			$table['light_device_and_system']['light_system']['intelligent_control_system']['in'] +
+			$table['light_device_and_system']['light_system']['sensor_system']['in'] + 
+			$table['light_device_and_system']['light_system']['other_connection_system']['in'];
+		$returnTable .= '<td>照明系统</td><td>' . $this_na . '</td><td>' . $this_in . '</td><td>' . ($this_na + $this_in) . '</td></tr>';
 	
 		$returnTable .= '<td colspan="2">其他</td><td>' . 
 			$table['others']['na'] . '</td><td>' . 
