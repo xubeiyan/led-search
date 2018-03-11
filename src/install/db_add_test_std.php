@@ -1,4 +1,5 @@
 <?php
+// 这段需要将其复制到数据库管理工具中执行
 $datasql = 'INSERT INTO LedStdEntity (
 	ArchId, StdNum           , StdLevel  , Category, ChName                     ,
 	EnName                                                , 
@@ -37,6 +38,7 @@ INSERT INTO LedStdEntity (
     本标准主要技术要求包括：标志、互换性、意外接触带电部件的防护、潮湿处理后的绝缘电阻和介电强度、机械强度、灯头温升、耐热性、防火与防燃、故障状态。"
 );';
 
+// 这段需要将其复制到数据库管理工具中执行
 $sql = 'INSERT INTO `LedStdStatistic` (
 		`Type`, `NationalNum`, `InternationalNum`
 	) VALUES (

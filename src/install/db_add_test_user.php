@@ -1,15 +1,8 @@
 <?php
+// 这段只需要运行php即可
 $admin_pass_hash = password_hash('isthereapass', PASSWORD_DEFAULT);
 $user_pass_hash = password_hash('abc', PASSWORD_DEFAULT);
 $disable_pass_hash = password_hash('disable', PASSWORD_DEFAULT);
-
-$conn = mysqli_connect('localhost', 'root', '', 'led_search');
-mysqli_set_charset($conn, 'utf8');
-if (mysqli_multi_query($conn, $insert_userdata_sql)) {
-	echo 'create tables successful!<br />';
-} else {
-	die(mysqli_error($conn));
-}
 
 $insert_userdata_sql = 'INSERT INTO LedRole (
 	`roletype`, `remark`        ,`createTime`, `updateTime`
@@ -53,6 +46,13 @@ INSERT INTO LedUser (
 	3       , "vip" ,"' . $user_pass_hash . '", "vip"     , "enable"    , NOW()       , NOW()       , "vip@led.cn"
 );
 ';
+$conn = mysqli_connect('localhost', 'root', '', 'led_search');
+mysqli_set_charset($conn, 'utf8');
+if (mysqli_multi_query($conn, $insert_userdata_sql)) {
+	echo 'create tables successful!<br />';
+} else {
+	die(mysqli_error($conn));
+}
 
 echo $admin_pass_hash . '<br>';
 echo $user_pass_hash . '<br>'; 

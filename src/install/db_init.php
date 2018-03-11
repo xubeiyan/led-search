@@ -1,4 +1,5 @@
 <?php
+// 这段需要复制到数据库管理工具中执行
 $create_table_sql = 'DROP TABLE if exists LedRole;
 
 CREATE TABLE LedRole
@@ -79,6 +80,7 @@ CREATE TABLE LedStdArch
    PRIMARY KEY (ArchId)
 );';
 
+// 这段只需要运行此php文件即可
 $conn = mysqli_connect('localhost', 'root', '', 'led_search');
 mysqli_set_charset($conn, 'utf8');
 if (mysqli_multi_query($conn, $insert_userdata_sql)) {
