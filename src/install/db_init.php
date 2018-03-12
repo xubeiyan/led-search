@@ -78,6 +78,17 @@ CREATE TABLE LedStdArch
    StdStatus            VARCHAR(20) COMMENT "标准状态",
    Remark               VARCHAR(40) COMMENT "备注",
    PRIMARY KEY (ArchId)
+);
+
+DROP TABLE IF EXISTS LedStdStatistic;
+
+CREATE TABLE LedStdStatistic
+(
+	id 					INT NOT NULL AUTO_INCREMENT,
+	Type				VARCHAR(255),
+	NationalNum			INT,
+	InternationalNum	INT,
+	PRIMARY KEY (id)
 );';
 
 // 这段只需要运行此php文件即可
