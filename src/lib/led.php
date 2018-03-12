@@ -185,6 +185,15 @@ class LED {
 				self::render('info', $info_templates);
 			}
 			
+			if (!isset($_SESSION['user']['roleId'])) {
+				$info_templates = Array(
+					'title' => '出错了',
+					'info' => '必须登录后才能查看',
+					'backUrl' => '.',
+				);
+				self::render('info', $info_templates);
+			}
+			
 			$entityid = is_numeric($_GET['entityid']) ? $_GET['entityid'] : 0;
 			
 			$searchArray = Array(
@@ -255,7 +264,10 @@ class LED {
 			$_SESSION = Array();
 		// 手动更新Statistic
 		} else if (isset($_GET['update_statistics'])) {
-			DB::updateStatistics();
+			$update_result = DB::updateStatistics();
+			echo '更新成功！<br>';
+			echo '更新国内标准 ' . $update_result['national'] . '个<br>';
+			echo '更新国际标准 ' . $update_result['international'] . '个<br>';
 			exit();
 		}
 	}
@@ -351,12 +363,17 @@ class LED {
 		// 高级查询
 		} else if ($decode_req['request'] == 'advancesearch') {
 			$searchArray = Array();
-			$searchArray['keyword'] = isset($decode_req['keyword']) ? '%' . $decode_req['keyword'] . '%' : '%';
-			$searchArray['search_type'] = isset($decode_req['search_type']) ? $decode_req['search_type'] : 'standard_type';
+			$searchtype = isset($decode_req['searchtype']) ? $decode_req['searchtype'] : 'uncertain';
+			$searchArray['searchtype'] = Util::translate($searchtype);
 			
-			if (!($searchArray['search_type'] == 'std_num' || $searchArray['search_type'] == 'std_name')) {
-				$searchArray['search_type'] = 'std_num';
+			// 搜索标准判断
+			if (!isset($decode_req['country']) || ($decode_req['country'] != 'in' && $decode_req['country'] != 'na')) {
+				$searchArray['country'] = 'uncertain';				
+			} else {
+				$searchArray['country'] = $decode_req['country'];
 			}
+			
+			$searchArray['keyword'] = isset($decode_req['keyword']) ? $decode_req['keyword'] : '';
 			
 			if (isset($decode_req['page'])) {
 				$page = $decode_req['page'] == '' ? 0 : $decode_req['page'];
@@ -371,7 +388,10 @@ class LED {
 				'perPage' 	=> $config['site']['record_per_page'],
 			);
 			
-			echo json_encode(Array('found_result' => 0), JSON_UNESCAPED_UNICODE);
+			$result = DB::advancesearch($searchArray, $pageArray);
+			// echo json_encode(Array('found_result' => 0), JSON_UNESCAPED_UNICODE);
+			$resultArray = Util::searchResult($result);
+			echo json_encode($resultArray);
 			exit();
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {

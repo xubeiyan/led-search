@@ -118,24 +118,8 @@ class DB {
 		mysqli_set_charset($conn, 'utf8');
 		$search_type = $searchArray['search_type'];
 		$keyword = $searchArray['keyword'];
-		// 标准类型
-		if ($search_type == 'standard_type') {
-			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `standardtype` LIKE "%s" LIMIT %d OFFSET %d', 
-				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
-		// 产品类型
-		} else if ($search_type == 'product_type') {
-			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `producttype` LIKE "%s" LIMIT %d OFFSET %d', 
-				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
-		// 标准层级
-		} else if ($search_type == 'stdlevel') {
-			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdlevel` LIKE "%s" LIMIT %d OFFSET %d', 
-				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
-		// 标准状态
-		} else if ($search_type == 'std_status') {
-			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdstatus` LIKE "%s" LIMIT %d OFFSET %d', 
-				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		// 标准号
-		} else if ($search_type == 'std_num') {
+		if ($search_type == 'std_num') {
 			$sql = sprintf('SELECT * FROM `ledstdentity` WHERE `stdnum` LIKE "%s" LIMIT %d OFFSET %d', 
 				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
 		// 标准名称
@@ -146,6 +130,49 @@ class DB {
 		
 		$result = mysqli_query($conn, $sql);
 		
+		$returnArray = Array();
+		
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($returnArray, $row);
+		}
+		
+		return $returnArray;
+	}
+	
+	/**
+	* 高级查找
+	*/
+	public static function advanceSearch($searchArray, $pageArray) {
+		$conn = self::connect();
+		mysqli_set_charset($conn, 'utf8');
+		
+		// $type = $searchArray['searchtype'] != 'uncertain' ? '%' . $searchArray['searchtype'] . '%' : '%';
+		
+		if ($searchArray['searchtype'] == 'uncertain') {
+			$type = '1';
+		} else {
+			$type = '`ProductType` = "' . $searchArray['searchtype'] . '"';
+		}
+		$keyword = $searchArray['keyword'] != '' ? '%' . $searchArray['keyword'] . '%' : '%';
+		
+		if ($searchArray['country'] == 'uncertain') {
+			$country = '1';
+		} else {
+			if ($searchArray['country'] == 'in') {
+				$country = '(`StdLevel` = "国外标准" OR `StdLevel` = "国际标准")';
+			} else {
+				$country = '(`StdLevel` = "国家标准" OR `StdLevel` = "国内标准")';
+			}
+		}
+		
+		
+		$sql = sprintf('SELECT * FROM `ledstdentity` WHERE (%s AND 
+			%s AND (`chname` LIKE "%s" OR `enname` LIKE "%s")) LIMIT %d OFFSET %d', 
+			$type, $country, $keyword, $keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+			
+		// print_r($sql);	
+		// exit();
+		$result = mysqli_query($conn, $sql);
 		$returnArray = Array();
 		
 		while ($row = mysqli_fetch_assoc($result)) {
@@ -254,25 +281,38 @@ class DB {
 		$conn = self::connect();
 		mysqli_set_charset($conn, 'utf8');
 		
+		$clearStatistics = sprintf('UPDATE `LedStdStatistic` SET `NationalNum` = 0, `InternationalNum` = 0');
+		
+		if (!mysqli_query($conn, $clearStatistics)) {
+			die(mysqli_error($conn));
+		}
+		
 		$getStatisticSql = sprintf('SELECT `StdLevel`, `ProductType` FROM `LedStdEntity`');
 
 		$result = mysqli_query($conn, $getStatisticSql);
 		
+		$update_result = Array(
+			'national' => 0,
+			'international' => 0,
+		);
+		
 		while ($row = mysqli_fetch_assoc($result)) {
 			if ($row['StdLevel'] == '国外标准' || $row['StdLevel'] == '国际标准') {
-				$sql = sprintf('UPDATE `LedStdStatistic` SET `InternationalNum` = `InternationalNum` + 1 WHERE `Type` = "%s"', $row['ProductType']);				
+				$sql = sprintf('UPDATE `LedStdStatistic` SET `InternationalNum` = `InternationalNum` + 1 
+					WHERE `Type` = "%s"', $row['ProductType']);				
+				$update_result['international'] += 1;
 			} else {
-				$sql = sprintf('UPDATE `LedStdStatistic` SET `NationalNum` = `NationalNum` + 1 WHERE `Type` = "%s"', $row['ProductType']);
+				$sql = sprintf('UPDATE `LedStdStatistic` SET `NationalNum` = `NationalNum` + 1 
+					WHERE `Type` = "%s"', $row['ProductType']);
+				$update_result['national'] += 1;
 			}
 			
 			if (!mysqli_query($conn, $sql)) {
 				die(mysqli_error($conn));
 			}
-			
-			print_r($sql . '<br />');
 		}
 		
-		return 'ok';
+		return $update_result;
 	}
 }
 ?>

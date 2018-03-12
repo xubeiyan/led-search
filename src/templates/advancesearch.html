@@ -3,16 +3,28 @@
 	<hr>
 	<div class="input-area">
 		<div class="flex">
-			<select id="searchtype">
-				<option value="na" selected>国内标准</option>
+			<span>分类</span>
+			<select id="type">
+				<option value="uncertain" selected>未指定</option>
+				<option value="general">通用标准</option>
+				<option value="material">材料</option>
+				<option value="candd">芯片和器件</option>
+				<option value="light">照明设备和系统</option>
+				<option value="other">其他</option>
+			</select>
+			<span>子分类</span>
+			<select id="subtype">
+				<option value="uncertain" selected>未指定</option>
+			</select>
+			<span>国内/国外</span>
+			<select id="countrytype">
+				<option value="uncertain" selected>未指定</option>
 				<option value="in">国外标准</option>
+				<option value="na">国内标准</option>
 			</select>
-			<select id="searchsubtype">
-				<option value="empty" selected>未指定</option>
-			</select>
-			<select id="searchsubsubtype">
-				<option value="empty" selected>未指定</option>
-			</select>
+		</div>
+		
+		<div class="flex">
 			<input id="searchvalue" type="text" value="" placeholder="请输入查询关键字"/>
 			<button id="searchbutton">查询</button>
 		</div>

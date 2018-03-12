@@ -169,6 +169,11 @@
 		justify-content: center;
 	}
 	
+	main div.container div.flex span{
+		margin-right: 10px;
+		margin-bottom: 10px;
+	}
+	
 	main div.container div.flex button {
 		height: 30px;
 		background-color: #BBB;

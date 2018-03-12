@@ -395,6 +395,16 @@ class Util {
 			
 		return $returnTable;
 	}
+	
+	public static function translate($en) {
+		if ($en == 'general') {
+			return '通用标准';
+		} else if ($en == 'led_light_source') {
+			return 'LED光源';
+		} else {
+			return 'uncertain';
+		}
+	}
 }
 
 ?>
