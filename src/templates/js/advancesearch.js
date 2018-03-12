@@ -10,7 +10,7 @@ var searchtype = document.getElementById('type'),
 			{index: 'uncertain', text: '未指定'},
 			{index: 'standard', text: '材料通用标准'}, 
 			{index: 'substrate', text: '衬底材料'},
-			{index: 'light', text: '发光材料'},
+			{index: 'light_m', text: '发光材料'},
 		],
 		'candd': [
 			{index: 'uncertain', text: '未指定'},

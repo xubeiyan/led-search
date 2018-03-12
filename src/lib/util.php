@@ -399,8 +399,36 @@ class Util {
 	public static function translate($en) {
 		if ($en == 'general') {
 			return '通用标准';
+		} else if ($en == 'material') {
+			return '材料';
+		} else if ($en == 'standard') {
+			return '材料通用标准';
+		} else if ($en == 'substrate') {
+			return '衬底材料';
+		} else if ($en == 'light_m') {
+			return '发光材料';
+		} else if ($en == 'candd') {
+			return '芯片和器件';
+		} else if ($en == 'wafer') {
+			return '外延片';
+		} else if ($en == 'chip') {
+			return '芯片';
+		} else if ($en == 'device') {
+			return '器件';
+		} else if ($en == 'light') {
+			return '照明设备和系统';
+		} else if ($en == 'led_module') {
+			return 'LED模块';
 		} else if ($en == 'led_light_source') {
 			return 'LED光源';
+		} else if ($en == 'lamp_annex') {
+			return '灯用附件';
+		} else if ($en == 'lamp_holder_and_socket') {
+			return '灯头灯座';
+		} else if ($en == 'lamps') {
+			return '灯具';
+		} else if ($en == 'light_system') {
+			return '照明系统';
 		} else {
 			return 'uncertain';
 		}
