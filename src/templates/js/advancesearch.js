@@ -29,6 +29,7 @@ var searchtype = document.getElementById('type'),
 		],
 		'other': [{index: 'uncertain', text: '未指定'}],
 	},
+	currentPage = 0,
 	error_info = document.getElementById('errorInfo'),
 	search_result = document.getElementById('searchresult'),
 	searchbutton = document.getElementById('searchbutton'),
@@ -40,7 +41,26 @@ var searchtype = document.getElementById('type'),
 		}
 		resultHTML += '</table>';
 		return resultHTML;
-	}
+	},
+	makePageNum = function (num, nextPageActive) {
+		if (nextPageActive) {
+			var disable = 'disabled';
+		} else {
+			var disable = '';
+		}
+		
+		var returnHTML = '<div class="pagenum"><button onclick="prev()">上一页</button><span>' + (currentPage + 1) + '</span>' +
+		'<button onclick="next()" ' + disable + '>下一页</button></div>';
+		return returnHTML;
+	},
+	prev = function () {
+		currentPage = currentPage == 0 ? 0 : currentPage - 1;
+		searchbutton.click();
+	},
+	next = function () {
+		currentPage = currentPage + 1;
+		searchbutton.click();
+	};
 	
 searchtype.addEventListener('change', function() {
 	var typeValue = searchtype.value,
@@ -73,7 +93,7 @@ searchbutton.addEventListener('click', function () {
 			'searchtype': searchTypeText,
 			'country': searchcountrytype.value,
 			'keyword': searchvalue.value,
-			'page': 0,
+			'page': currentPage,
 		};
 		
 	xmlRequest.open('POST', '.');
@@ -87,6 +107,8 @@ searchbutton.addEventListener('click', function () {
 				search_result.innerText = '什么都没找到';
 			} else {
 				search_result.innerHTML = makeResultTable(arrRes.results);
+				var nextPageActive = arrRes.perPage > arrRes.found_result ? 'false' : 'true';
+				search_result.innerHTML += makePageNum(currentPage, nextPageActive);
 			}
 			
 		}

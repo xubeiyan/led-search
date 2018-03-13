@@ -190,6 +190,28 @@
 		margin-right: auto;
 		margin-bottom: 10px;
 	}
+	
+	main div.container div.search-result-area div.pagenum {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	main div.container div.search-result-area div.pagenum button {
+		height: 30px;
+		background-color: #BBB;
+		border: 1px solid #BBB;
+		margin-top: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+		cursor: pointer;
+	}
+	
+	main div.container div.search-result-area div.pagenum span {
+		margin-top: 10px;
+	}
+	
 	main div.container div.error-info {
 		line-height: 30px;
 		width: 400px;

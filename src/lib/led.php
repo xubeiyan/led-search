@@ -357,7 +357,8 @@ class LED {
 			
 			$result = DB::search($searchArray, $pageArray);
 			
-			$returnArray = Util::searchResult($result);
+			$returnArray = Util::searchResult($result, $page);
+			$returnArray['perPage'] = $config['site']['record_per_page'];
 			echo json_encode($returnArray, JSON_UNESCAPED_UNICODE);
 			exit();
 		// 高级查询
@@ -390,8 +391,9 @@ class LED {
 			
 			$result = DB::advancesearch($searchArray, $pageArray);
 			// echo json_encode(Array('found_result' => 0), JSON_UNESCAPED_UNICODE);
-			$resultArray = Util::searchResult($result);
-			echo json_encode($resultArray);
+			$resultArray = Util::searchResult($result, $page);
+			$resultArray['perPage'] = $config['site']['record_per_page'];
+			echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
 			exit();
 		// 更新用户信息
 		} else if ($decode_req['request'] == 'updateUserInfo') {

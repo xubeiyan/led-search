@@ -22,12 +22,13 @@ class Util {
 	/**
 	* 输出查询结果
 	*/
-	public static function searchResult($resultArray) {
+	public static function searchResult($resultArray, $page) {
 		header('Content-Type: application/json');
 		
 		if ($resultArray == Array()) {
 			$return_array = Array(
 				'found_result' => 0,
+				'page' => 0,
 				'results' => Array(),
 			);
 		} else {
@@ -35,6 +36,7 @@ class Util {
 		
 			$return_array = Array(
 				'found_result' => $length,
+				'page' => $page,
 				'results' => $resultArray,
 			);
 		}
