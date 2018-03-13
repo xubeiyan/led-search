@@ -74,6 +74,7 @@ class LED {
 			$standard_templates = Array(
 				'header_title' => '标准体系结构图',
 				'title' => '标准LED查询系统 - 体系结构',
+				'script' => 'templates/js/standard.js',
 			);
 			self::render('standard', $standard_templates);
 		// 用户信息
