@@ -501,7 +501,7 @@ class LED {
 		$layout_content = str_replace('{{ footer }}', $footer_content, $layout_content);
 		
 		$entries = Array (
-			'title' 		=> '标准LED查询系统 - 首页',
+			'title' 		=> '半导体照明标准查询系统 - 首页',
 			'header_title' 	=> '首页',
 			'css_file' 		=> 'templates/css/main.css',
 			'script' 		=> 'templates/js/index.js',
