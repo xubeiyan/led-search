@@ -370,22 +370,18 @@
 	}
 	
 	footer div.copyright {
-		width: 50%;
+		width: 100%;
 		display: inline-block;
 	}
 	
 	footer div.date-time {
 		width: 50%;
 		display: inline-block;
-		text-align: right;
-	}
-	
-	footer div.browser {
-		width: 50% - 10px;
-		display: inline-block;
+		text-align: left;
 		margin-top: 10px;
 		font-size: 12px;
 	}
+	
 	
 	footer div.time {
 		width: 50%;

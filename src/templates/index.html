@@ -1,5 +1,36 @@
 <div class="container">
-	<h1>首页</h1>
+	<h1>标准体系结构图</h1>
 	<hr>
-	<p>欢迎使用标准LED查询系统！</p>
+	<div class="list">
+		<ul class="list">
+			
+			<li><a href="?advancesearch&type=-1,0&autosearch">通用标准</a></li>
+			<li><a href="?advancesearch&type=-1,1&autosearch">材料</a></li>
+				<ul>
+					<li><a href="?advancesearch&type=-1,1,0&autosearch">材料通用标准</a></li>
+					<li><a href="?advancesearch&type=-1,1,1&autosearch" onmouseover="display('ChendiCailiao.png')" onmouseout="hide()">衬底材料</a></li>
+					<li><a href="?advancesearch&type=-1,1,2&autosearch" onmouseover="display('FaguangCailiao01.png')" onmouseout="hide()">发光材料</a></li>
+				</ul>
+			<li><a href="?advancesearch&type=-1,2&autosearch">芯片与器件</a></li>
+				<ul>
+					<li><a href="?advancesearch&type=-1,2,0&autosearch" onmouseover="display('WaiYanPian01.png')" onmouseout="hide()">外延片</a></li>
+					<li><a href="?advancesearch&type=-1,2,1&autosearch" onmouseover="display('Chip.png')" onmouseout="hide()">芯片</a></li>
+					<li><a href="?advancesearch&type=-1,2,2&autosearch" onmouseover="display('QiJian01.png')" onmouseout="hide()">器件</a></li>
+				</ul>
+			<li><a href="?advancesearch&type=-1,3&autosearch">照明设备和系统</a></li>
+				<ul>
+					<li><a href="?advancesearch&type=-1,3,0&autosearch" onmouseover="display('LED_Modlue01.png')" onmouseout="hide()">LED模块</a></li>
+					<li><a href="?advancesearch&type=-1,3,1&autosearch" onmouseover="display('LED_GY01.png')" onmouseout="hide()">LED光源</a></li>
+					<li><a href="?advancesearch&type=-1,3,2&autosearch" onmouseover="display('DengYongFujian.png')" onmouseout="hide()">灯用附件</a></li>
+					<li><a href="?advancesearch&type=-1,3,3&autosearch" onmouseover="display('DengtouDengzuo01.png')" onmouseout="hide()">灯头灯座</a></li>
+					<li><a href="?advancesearch&type=-1,3,4&autosearch" onmouseover="display('Dengju.png')" onmouseout="hide()">灯具</a></li>
+					<li><a href="?advancesearch&type=-1,3,5&autosearch" onmouseover="display('ZhaoMingXT.png')" onmouseout="hide()">照明系统</a></li>
+				</ul>
+			<li><a href="?advancesearch&type=-1,4&autosearch">其他</a></li>
+		</ul>
+		<div id="imagearea">
+			<img style="height: 200px" id="image" />
+		</div>
+	</div>
+	<hr>
 </div>

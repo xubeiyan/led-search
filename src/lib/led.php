@@ -35,7 +35,12 @@ class LED {
 		}
 		
 		// 什么都获取不到则渲染主页
-		self::render('index');
+		$standard_templates = Array(
+			'header_title' => '标准体系结构图',
+			'title' => '标准LED查询系统 - 体系结构',
+			'script' => 'templates/js/standard.js',
+		);
+		self::render('index', $standard_templates);
 	}
 	
 	/**
@@ -71,12 +76,7 @@ class LED {
 			unset($_SESSION['user']);
 		// 标准体系
 		} else if (isset($_GET['standard'])) {
-			$standard_templates = Array(
-				'header_title' => '标准体系结构图',
-				'title' => '标准LED查询系统 - 体系结构',
-				'script' => 'templates/js/standard.js',
-			);
-			self::render('standard', $standard_templates);
+			
 		// 用户信息
 		} else if (isset($_GET['user'])) {
 			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == FALSE) {
@@ -506,7 +506,7 @@ class LED {
 			'css_file' 		=> 'templates/css/main.css',
 			'script' 		=> 'templates/js/index.js',
 			'date'			=> date('Y年m月d日'),
-			'time'			=> date('e H:i'),
+			'time'			=> date('H点i分'),
 		);
 		
 		if (isset($_SESSION['user']['status']) && $_SESSION['user']['status'] == true) {

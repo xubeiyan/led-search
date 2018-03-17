@@ -117,17 +117,24 @@ searchbutton.addEventListener('click', function () {
 
 window.onload = function () {
 	// console.log(window.location.search);
-	var searchTypeText = window.location.search.split('&')[1];
-	if (searchTypeText == undefined) {
+	var params = window.location.search.split('&'),
+		advancesearch, searchTypeText = '', autosearch = false;
+	for (var param of params) {
+		if (param.split('=')[0] == 'advancesearch') {
+			advancesearch = 'advancesearch';
+		} else if (param.split('=')[0] == 'type') {
+			searchTypeText = param.split('=')[1];
+		} else if (param.split('=')[0] == 'autosearch') {
+			autosearch = true;
+		}
+	}
+	if (searchTypeText == '') {
 		return;
 	}
-	var type_num = searchTypeText.split('=')[1];
-	if (type_num == undefined) {
-		return;
-	}
-	var country_type = type_num.split(',')[0] == undefined ? -1 : type_num.split(',')[0],
-		search_type = type_num.split(',')[1] == undefined ? -1 : type_num.split(',')[1],
-		search_subtype = type_num.split(',')[2] == undefined ? -1 : type_num.split(',')[2];
+	
+	var country_type = searchTypeText.split(',')[0] == undefined ? -1 : searchTypeText.split(',')[0],
+		search_type = searchTypeText.split(',')[1] == undefined ? -1 : searchTypeText.split(',')[1],
+		search_subtype = searchTypeText.split(',')[2] == undefined ? -1 : searchTypeText.split(',')[2];
 		
 	// console.log(parseInt(search_type) + 1);
 	// searchtype.value = type[search_type + 1]
@@ -141,5 +148,9 @@ window.onload = function () {
 	} else {
 		searchsubtype.innerHTML = '<option value="' + type[searchtype.value][search_subtype_value].index + '">' 
 			+ type[searchtype.value][search_subtype_value].text + '</option>';		
+	}
+	
+	if (autosearch) {
+		searchbutton.click();
 	}
 }
