@@ -115,6 +115,10 @@
 		justify-content: flex-start;
 	}
 	
+	main div.container div.list img.stdimage {
+
+	}
+	
 	main div.container div.list ul.list {
 		width: 50%;
 	}
