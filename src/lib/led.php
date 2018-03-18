@@ -37,7 +37,7 @@ class LED {
 		// 什么都获取不到则渲染主页
 		$standard_templates = Array(
 			'header_title' => '标准体系结构图',
-			'title' => '标准LED查询系统 - 体系结构',
+			'sub_title' => '体系结构',
 			'script' => 'templates/js/standard.js',
 		);
 		self::render('index', $standard_templates);
@@ -55,7 +55,7 @@ class LED {
 			
 			$login_templates = Array(
 				'header_title' => '登录',
-				'title' => '标准LED查询系统 - 登录',
+				'sub_title' => '登录',
 				'script' => 'templates/js/login.js',
 			);
 			self::render('login', $login_templates);
@@ -66,7 +66,7 @@ class LED {
 		} else if (isset($_GET['logout'])) {
 			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == false) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '并没有登录',
 					'backUrl' => '.',
 				);
@@ -81,7 +81,7 @@ class LED {
 		} else if (isset($_GET['user'])) {
 			if (!isset($_SESSION['user']['status']) || $_SESSION['user']['status'] == FALSE) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '并没有登录',
 					'backUrl' => '.',
 				);
@@ -92,7 +92,7 @@ class LED {
 			
 			if ($userInfo == 'no such user') {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '未找到该用户',
 					'backUrl' => '.',
 				);
@@ -101,7 +101,7 @@ class LED {
 			
 			$user_templates = Array (
 				'header_title' => '用户信息',
-				'title' => '标准LED查询系统 - 用户信息',
+				'sub_title' => '用户信息',
 				'script' => 'templates/js/user.js',
 			);
 			
@@ -113,7 +113,7 @@ class LED {
 			// 身份检查
 			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '当前用户并不是管理员',
 					'backUrl' => '.',
 				);
@@ -137,6 +137,7 @@ class LED {
 			// $_SESSION['query']['record_num'] = count($result);
 			
 			$manage_templates = Array (
+				'sub_title' => '用户管理',
 				'userTable' => $userTable,
 				'prevdisable' => $info['page'] == 0 ? 'disabled' : '',
 				'prevPage' => $prevPage,
@@ -150,7 +151,7 @@ class LED {
 		} else if (isset($_GET['edit'])) {
 			if (!isset($_SESSION['user']['roleId']) || $_SESSION['user']['roleId'] != 1) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '当前用户并不是管理员',
 					'backUrl' => '.',
 				);
@@ -169,6 +170,7 @@ class LED {
 			$entityTable = Util::makeEntityTable($result);
 			
 			$edit_templates = Array (
+				'sub_title' => '记录修改',
 				'entityTable' => $entityTable,
 				'script' => 'templates/js/edit.js',
 			);
@@ -179,7 +181,7 @@ class LED {
 		} else if (isset($_GET['view'])) {
 			if (!isset($_GET['entityid'])) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '没有提供EntityID',
 					'backUrl' => '.',
 				);
@@ -188,9 +190,10 @@ class LED {
 			
 			if (!isset($_SESSION['user']['roleId'])) {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '必须登录后才能查看',
-					'backUrl' => '.',
+					'backText' => '登录',
+					'backUrl' => '?login',
 				);
 				self::render('info', $info_templates);
 			}
@@ -205,7 +208,7 @@ class LED {
 			
 			if ($resultArray == 'no record') {
 				$info_templates = Array(
-					'title' => '出错了',
+					'sub_title' => '出错了',
 					'info' => '没找到EntityID为' . $entityid . '的记录',
 					'backUrl' => '.',
 				);
@@ -213,7 +216,7 @@ class LED {
 			}
 			
 			$view_templates = Array(
-				'title' => '标准LED查询系统 - 浏览',
+				'sub_title' => '浏览',
 			);
 			
 			// 管理员增加一个修改按钮
@@ -232,7 +235,7 @@ class LED {
 		// 标准体系统计
 		} else if (isset($_GET['statistics'])) {
 			$statistics_templates = Array(
-				'title' => '标准LED查询系统 - 标准体系统计',
+				'sub_title' => '标准体系统计',
 			);
 			
 			$statistic = DB::statistics();
@@ -248,7 +251,7 @@ class LED {
 		} else if (isset($_GET['stdsearch'])) {
 			$std_templates = Array (
 				'header_title' => '标准查询',
-				'title' => '标准LED查询系统 - 标准查询',
+				'sub_title' => '标准查询',
 				'script' => 'templates/js/search.js',
 			);
 			self::render('stdsearch', $std_templates);
@@ -256,7 +259,7 @@ class LED {
 		} else if (isset($_GET['advancesearch'])) {
 			$std_templates = Array (
 				'header_title' => '高级查询',
-				'title' => '标准LED查询系统 - 高级查询',
+				'sub_title' => '高级查询',
 				'script' => 'templates/js/advancesearch.js',
 			);
 			self::render('advancesearch', $std_templates);
@@ -501,12 +504,13 @@ class LED {
 		$layout_content = str_replace('{{ footer }}', $footer_content, $layout_content);
 		
 		$entries = Array (
-			'title' 		=> '半导体照明标准查询系统 - 首页',
+			'title' 		=> '半导体照明标准查询系统',
 			'header_title' 	=> '首页',
 			'css_file' 		=> 'templates/css/main.css',
 			'script' 		=> 'templates/js/index.js',
 			'date'			=> date('Y年m月d日'),
 			'time'			=> date('H点i分'),
+			'backText'		=> '回到首页',
 		);
 		
 		if (isset($_SESSION['user']['status']) && $_SESSION['user']['status'] == true) {

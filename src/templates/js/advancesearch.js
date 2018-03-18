@@ -35,9 +35,12 @@ var searchtype = document.getElementById('type'),
 	searchbutton = document.getElementById('searchbutton'),
 	makeResultTable = function (resultArray) {
 		var resultHTML = '<table><tr class="header"><td>序号</td><td>标准编号</td><td>中文名称</td><td>英文名称</td></tr>';
+		var startNum = 1;
 		for (var line of resultArray) {
-			resultHTML += '<tr class="focus" onclick="window.location.href=\'?view&entityid=' + line['ArchId'] + '\'"><td>' + line['ArchId'] + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + 
-				'</td><td>' + line['EnName'] + '</td></tr>'; 
+			resultHTML += '<tr class="focus" onclick="window.location.href=\'?view&entityid=' 
+			+ line['ArchId'] + '\'"><td>' + startNum + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + 
+				'</td><td>' + line['EnName'] + '</td></tr>';
+			startNum += 1;				
 		}
 		resultHTML += '</table>';
 		return resultHTML;
