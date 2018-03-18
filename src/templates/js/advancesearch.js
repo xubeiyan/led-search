@@ -38,7 +38,7 @@ var searchtype = document.getElementById('type'),
 		var startNum = 1;
 		for (var line of resultArray) {
 			resultHTML += '<tr class="focus" onclick="window.location.href=\'?view&entityid=' 
-			+ line['ArchId'] + '\'"><td>' + startNum + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + 
+			+ line['EntityId'] + '\'"><td>' + startNum + '</td><td>' + line['StdNum'] + '</td><td>' + line['ChName'] + 
 				'</td><td>' + line['EnName'] + '</td></tr>';
 			startNum += 1;				
 		}
