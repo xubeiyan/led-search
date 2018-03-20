@@ -36,6 +36,24 @@ INSERT INTO LedStdEntity (
     本标准适用于如下范围：额定功率60W以下；额定电压大于50V且小于或等于250V；灯头符合表1要求。
     本标准的要求只涉及型式试验。关于全部产品的检验和批量产品的检验方法将在GB 24819-2009的附录C中定义。
     本标准主要技术要求包括：标志、互换性、意外接触带电部件的防护、潮湿处理后的绝缘电阻和介电强度、机械强度、灯头温升、耐热性、防火与防燃、故障状态。"
+);
+
+INSERT INTO LedStdEntity (
+	ArchId, StdNum           , StdLevel  , Category, ChName                     ,
+	EnName                                                , 
+	ReleaseDate, ImpelementDate, StdStatus , AlterStandard, AdoptNo, 
+	AdoptName, AdoptLev, AdoptType, ICS        , CCS  , StandardType, 
+	ProductType, DepartCharge           , DepartResponse                       , AnnounceNum ,
+	CtnLink                                                                             , Abstract
+) VALUES (
+	122     , "IEC 62776:2014", "国际标准", ""      , "设计用于改造线性萤光灯的双端LED灯-安全规格", 
+	"Double-capped LED lamps designed to retrofit linear fluorescent lamps - Safety specifications",
+	"2014/12/11" , "2014/12/11"    , "现行有效", ""           , ""     , ""       , ""      , "ISO/IEC/IEEE"     , "29.140.99", "", "安全"      ,
+	"基础通用"  ,"IEC", "TC34 SC34A", "",
+	"https://webstore.iec.ch/publication/7425", 
+	"IEC 62776:2014规定了安全性、可互换性的要求，以及相关的测试方法和测试条件，以证明采用G5和G13的双端LED灯的合规性，其目的是用相同的双端灯取代荧光灯，双端LED灯要求包括:
+	-额定功率高达125瓦;
+	-额定电压高达250v。"
 );';
 
 // 这段需要将其复制到数据库管理工具中执行

@@ -277,7 +277,7 @@ class DB {
 	/**
 	* 更新统计信息
 	*/
-	public static function updateStatistics() {
+	public static function updateStatistics($in_array) {
 		$conn = self::connect();
 		mysqli_set_charset($conn, 'utf8');
 		
@@ -297,13 +297,20 @@ class DB {
 		);
 		
 		while ($row = mysqli_fetch_assoc($result)) {
+			if (in_array($row['ProductType'], $in_array)) {
+				$productType = $row['ProductType'];
+			} else {
+				$productType = '其他';
+			}
+			
 			if ($row['StdLevel'] == '国外标准' || $row['StdLevel'] == '国际标准') {
+				
 				$sql = sprintf('UPDATE `LedStdStatistic` SET `InternationalNum` = `InternationalNum` + 1 
-					WHERE `Type` = "%s"', $row['ProductType']);				
+					WHERE `Type` = "%s"', $productType);				
 				$update_result['international'] += 1;
 			} else {
 				$sql = sprintf('UPDATE `LedStdStatistic` SET `NationalNum` = `NationalNum` + 1 
-					WHERE `Type` = "%s"', $row['ProductType']);
+					WHERE `Type` = "%s"', $productType);
 				$update_result['national'] += 1;
 			}
 			
@@ -313,6 +320,22 @@ class DB {
 		}
 		
 		return $update_result;
+	}
+	/**
+	* 获取或者更新访问人数
+	*/
+	public static function visit_num($operation, $num = 0) {
+		if ($operation == 'get') {
+			$file = fopen('db/visit.db', 'r');
+			$line = fgets($file);
+			fclose($file);
+			return $line;
+		} else if ($operation == 'set') {
+			$file = fopen('db/visit.db', 'w');
+			fputs($file, $num);
+			fclose($file);
+			return 'success';
+		}
 	}
 }
 ?>

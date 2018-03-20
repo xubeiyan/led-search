@@ -28,6 +28,7 @@ $config = Array (
 		'template_folder' 		=> 'templates', 	// 模板位置
 		'login_validate'		=> false,
 		'record_per_page'		=> 50,				// 查询时每页数量
+		'visit_num'				=> true				// 查询人数显示
 	),
 );
 ?>

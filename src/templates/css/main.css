@@ -374,8 +374,14 @@
 	}
 	
 	footer div.copyright {
-		width: 100%;
+		width: 80%;
 		display: inline-block;
+	}
+	
+	footer div.visit {
+		width: 20%;
+		display: inline-block;
+		text-align: right;
 	}
 	
 	footer div.date-time {

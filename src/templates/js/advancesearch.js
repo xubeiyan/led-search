@@ -46,7 +46,7 @@ var searchtype = document.getElementById('type'),
 		return resultHTML;
 	},
 	makePageNum = function (num, nextPageActive) {
-		if (nextPageActive) {
+		if (!nextPageActive) {
 			var disable = 'disabled';
 		} else {
 			var disable = '';
@@ -110,7 +110,7 @@ searchbutton.addEventListener('click', function () {
 				search_result.innerText = '什么都没找到';
 			} else {
 				search_result.innerHTML = makeResultTable(arrRes.results);
-				var nextPageActive = arrRes.perPage > arrRes.found_result ? 'false' : 'true';
+				var nextPageActive = arrRes.perPage > arrRes.found_result ? false : true;
 				search_result.innerHTML += makePageNum(currentPage, nextPageActive);
 			}
 			

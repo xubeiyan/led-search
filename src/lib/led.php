@@ -268,7 +268,12 @@ class LED {
 			$_SESSION = Array();
 		// 手动更新Statistic
 		} else if (isset($_GET['update_statistics'])) {
-			$update_result = DB::updateStatistics();
+			$in_array = ['通用标准', 
+						'材料', '材料通用标准', '衬底材料', '发光材料', 
+						'芯片和器件', '外延片', '芯片', '器件',
+						'照明设备和系统', 'LED模块', 'LED光源', '灯用附件', '灯头灯座', '灯具', '照明系统',
+						'专用集成电路', '驱动控制装置', '照明接口', '智能控制系统', '传感器系统', '其他连接系统'];
+			$update_result = DB::updateStatistics($in_array);
 			echo '更新成功！<br>';
 			echo '更新国内标准 ' . $update_result['national'] . '个<br>';
 			echo '更新国际标准 ' . $update_result['international'] . '个<br>';
@@ -503,11 +508,15 @@ class LED {
 		$layout_content = str_replace('{{ block body }}', $template_content, $layout_content);
 		$layout_content = str_replace('{{ footer }}', $footer_content, $layout_content);
 		
+		$visit_num = 1 + DB::visit_num('get') ;
+		DB::visit_num('set', $visit_num);
+		
 		$entries = Array (
 			'title' 		=> '半导体照明标准查询系统',
 			'header_title' 	=> '首页',
 			'css_file' 		=> 'templates/css/main.css',
 			'script' 		=> 'templates/js/index.js',
+			'visit'			=> $visit_num,
 			'date'			=> date('Y年m月d日'),
 			'time'			=> date('H点i分'),
 			'backText'		=> '回到首页',
