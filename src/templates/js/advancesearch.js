@@ -26,8 +26,7 @@ var searchtype = document.getElementById('type'),
 			{index: 'lamp_holder_and_socket', text: '灯头灯座'},
 			{index: 'lamps', text: '灯具'},
 			{index: 'light_system', text: '照明系统'},
-		],
-		'other': [{index: 'uncertain', text: '未指定'}],
+		]
 	},
 	currentPage = 0,
 	error_info = document.getElementById('errorInfo'),
@@ -64,6 +63,23 @@ var searchtype = document.getElementById('type'),
 		currentPage = currentPage + 1;
 		searchbutton.click();
 	};
+
+// 改变分类则重置currentPage
+searchtype.addEventListener('change', function () {
+	currentPage = 0;
+});
+// 改变子分类重置currentPage
+searchsubtype.addEventListener('change', function () {
+	currentPage = 0;
+});
+// 改变国内国外则重置currentPage
+searchcountrytype.addEventListener('change', function () {
+	currentPage = 0;
+});
+// 改变查询关键字则重置currentPage
+searchvalue.addEventListener('change', function () {
+	currentPage = 0;
+})
 	
 searchtype.addEventListener('change', function() {
 	var typeValue = searchtype.value,

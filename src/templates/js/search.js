@@ -36,6 +36,11 @@ var search_button = document.getElementById('searchbutton'),
 		currentPage = currentPage + 1;
 		search_button.click();
 	};
+	
+// 重新搜索则将currentPage置0
+search_value.addEventListener('change', function () {
+	currentPage = 0;
+});
 
 search_button.addEventListener('click', function () {
 	if (search_value.value == '') {

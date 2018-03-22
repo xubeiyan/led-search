@@ -121,13 +121,13 @@ class DB {
 		// 标准号
 		if ($search_type == 'std_num') {
 			$sql = sprintf('SELECT `EntityId`, `StdNum`, `ChName`, `EnName` FROM `ledstdentity` WHERE `stdnum` LIKE "%s" LIMIT %d OFFSET %d', 
-				$keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+				$keyword, $pageArray['perPage'], $pageArray['from']);
 		// 标准名称
 		} else if ($search_type == 'std_name') {
 			$sql = sprintf('SELECT `EntityId`, `StdNum`, `ChName`, `EnName` FROM `ledstdentity` WHERE (`chname` LIKE "%s" OR `enname` LIKE "%s") LIMIT %d OFFSET %d', 
-				$keyword, $keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+				$keyword, $keyword, $pageArray['perPage'], $pageArray['from']);
 		}
-		
+		// print_r($sql);
 		$result = mysqli_query($conn, $sql);
 		
 		$returnArray = Array();
@@ -168,7 +168,7 @@ class DB {
 		
 		$sql = sprintf('SELECT `EntityId`, `StdNum`, `ChName`, `EnName` FROM `ledstdentity` WHERE (%s AND 
 			%s AND (`chname` LIKE "%s" OR `enname` LIKE "%s")) LIMIT %d OFFSET %d', 
-			$type, $country, $keyword, $keyword, $pageArray['perPage'], $pageArray['perPage'] * $pageArray['from']);
+			$type, $country, $keyword, $keyword, $pageArray['perPage'], $pageArray['from']);
 			
 		// print_r($sql);	
 		// exit();
