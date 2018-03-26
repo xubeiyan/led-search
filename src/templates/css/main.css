@@ -110,17 +110,15 @@
 	}
 	
 	/* 标准体系结构 */
-	main div.container div.list {
+	main div.container div.list div.triple {
+		width: 800px;
 		display: flex;
-		justify-content: flex-start;
+		justify-content: space-between;
 	}
 	
-	main div.container div.list img.stdimage {
-
-	}
-	
-	main div.container div.list ul.list {
-		width: 50%;
+	main div.container div.list div.triple img {
+		height: 210px;
+		width: 33%;
 	}
 	
 	/* 信息 */
